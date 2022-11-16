@@ -1,0 +1,1 @@
+export interface IOrder { name: string, surname: string, zipcode: string, deliveryOption: string, totalPrice: number, cart: object[], city: string, phone: string, voivodeship: string, email: string, address: string }
