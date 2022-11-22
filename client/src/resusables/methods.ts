@@ -26,13 +26,13 @@ export const dialog = (bool: boolean, classname: string): HTMLElement => {
 }
 
 
-export const getSingleItem = (id: number | string, data?: object[], path?: string) => {
-    if (data) {
+export const getSingleItem = async (id: number | string, path: string, data?: object[]) => {
+
+    if (data && Object.keys(data || {}).length) {
         return data.find((item: any) => item.id === id)
     }
 
-    if (path) return axios.get(path, { withCredentials: true }).then((res) => res.data)
-    return null;
+    return axios.get(path, { withCredentials: true }).then((res) => res.data)
 }
 
 

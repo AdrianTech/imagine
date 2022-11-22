@@ -11,7 +11,10 @@
         }}</span>
         zł
       </div>
-      <button @click="$router.push({ name: 'transaction' })">
+      <button
+        :class="[darkButton]"
+        @click="$router.push({ name: 'transaction' })"
+      >
         Dokończ zakup
       </button>
     </ul>
@@ -37,7 +40,7 @@
 <script lang="ts" setup>
 import Cart from "@/components/cart/Cart.vue";
 import Section from "@/components/commons/Section.vue";
-import { primaryButton } from "@/resusables/css-classes";
+import { darkButton } from "@/resusables/css-classes";
 import { useCartStore } from "@/stores/cart";
 
 const store = useCartStore();

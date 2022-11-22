@@ -85,12 +85,17 @@ import { computed, ref } from "@vue/runtime-core";
 import { convertDate } from "@/resusables/methods";
 import { primaryButton } from "@/resusables/css-classes";
 import { dialog } from "@/resusables/methods";
+import config from "@/resusables/config";
 const store = useAdminStore();
 const details = ref(false);
 
 const id = useRoute().params.id as string;
 
-const order: object = getSingleItem(id, store.orders) as object;
+const order: object = (await getSingleItem(
+  id,
+  `${config.nestApiPath}/orders/${id}`,
+  store.orders
+)) as object;
 
 const fullname = computed(() => `${order.name} ${order.surname}`);
 </script>

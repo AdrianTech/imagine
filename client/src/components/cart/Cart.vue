@@ -1,6 +1,6 @@
 <template>
   <div v-if="cartStore.cart.length" class="flex items-center">
-    <p class="mr-2">{{ title }}</p>
+    <p class="mr-2 flex-1">{{ title }}</p>
     <span class="font-bold">{{ isPromotion ? discount_price : price }} zł</span
     ><img
       :src="'http://localhost:3000/uploads/' + gallery[0]"
@@ -20,15 +20,18 @@
 
 <script lang="ts" setup>
 import { IProduct } from "@/interfaces/product";
+import { primaryButton } from "@/resusables/css-classes";
 import { useCartStore } from "@/stores/cart";
 import { PropType, ref } from "@vue/runtime-core";
 const cartStore = useCartStore();
-const quantity = ref(props.product.quantity);
 
 const props = defineProps({
   product: { type: Object as PropType<IProduct>, required: true },
   index: { type: Number, required: true },
 });
+
+const quantity = ref(props.product.quantity);
+
 const { title, isPromotion, discount_price, price, gallery, id } =
   props.product;
 

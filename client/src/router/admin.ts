@@ -10,13 +10,13 @@ export const admin: Array<RouteRecordRaw> = [
         path: '/admin',
         // name: "admin",
         // component: Admin,
-        beforeEnter: [routeGuard],
         meta: { access: 'admin' },
         children: [
             {
                 path: '',
                 name: 'admin',
-                redirect: { name: 'orders' }
+                redirect: { name: 'orders' },
+                // beforeEnter: [routeGuard]
             },
             {
                 path: 'zamowienia',

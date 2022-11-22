@@ -1,6 +1,7 @@
+import { DeliveryOption } from "src/admin/delivery-options/entities/delivery-option.entity";
 import { Product } from "src/products/entities/product.entity";
 import { DELIVERY } from "src/shared/variables/enums";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { OrderProductsDto } from "../dto/order-products.dto";
 
 @Entity()
@@ -39,8 +40,8 @@ export class Order {
     @Column('date', { nullable: true })
     finalizationDate: Date;
 
-    @Column({ type: "enum", enum: DELIVERY, default: DELIVERY.INPOST })
-    deliveryOption: DELIVERY;
+    // @Column({ type: "enum", enum: DELIVERY, default: DELIVERY.INPOST })
+    // deliveryOption: DELIVERY;
 
     @Column('float', { default: 0.00 })
     totalPrice: number;
@@ -56,4 +57,7 @@ export class Order {
 
     @Column('jsonb', { nullable: true })
     productsList: OrderProductsDto[];
+
+    @ManyToOne(() => DeliveryOption, delivery => delivery.orders, { eager: true })
+    deliver: DeliveryOption
 }

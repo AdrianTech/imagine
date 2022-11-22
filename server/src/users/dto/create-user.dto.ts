@@ -16,7 +16,7 @@ export class CreateUserDto {
     email: string;
 
     @IsString()
-    @Exclude()
+    // @Exclude()
     @Length(6, 50, { message: "Hasło powinno mieć co najmniej 6 znaków" })
     password: string;
 

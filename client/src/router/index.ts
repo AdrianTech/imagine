@@ -1,15 +1,14 @@
 import { createRouter, createWebHistory, onBeforeRouteUpdate, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ProductView from '../views/ProductView.vue'
-import ProductDetails from '../components/products/Details.vue'
 import NotFound from '../views/NotFound.vue';
 import Admin from '../views/Admin/Main.vue'
 import Login from '../views/Login.vue'
 import Cart from '../views/Cart.vue';
-import { routeGuard } from './guards/routeGuard';
 import { loggedGuard } from './guards/logged.guard';
 import Transaction from '../components/products/Transaction.vue';
 import { admin } from './admin'
+import { useAuthStore } from '@/stores/auth';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +39,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     component: Login,
+    beforeEnter: (to, from, next) => {
+      const store = useAuthStore()
+      if (store.isLogged) next();
+    }
   },
   {
     path: '/zakup',

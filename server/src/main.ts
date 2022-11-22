@@ -7,7 +7,9 @@ import { join } from 'path';
 
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['error', 'warn']
+  });
   app.enableCors({ credentials: true, origin: true });
   app.disable(['x-powered-by']);
   app.useStaticAssets(join(__dirname, '..', "uploads"), {

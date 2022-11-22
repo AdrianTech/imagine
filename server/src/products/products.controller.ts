@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseGuards, ParseIntPipe, UseInterceptors, CacheInterceptor } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -13,6 +13,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   public async findAll(@Paginate() query: PaginateQuery): Promise<Paginated<CreateProductDto>> {
     return await this.productsService.findAll(query);
   }

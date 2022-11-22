@@ -1,11 +1,10 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ProductsManageService } from './products-manage.service';
 import { ProductsManageController } from './products-manage.controller';
 import { ProductsModule } from '../../products/products.module';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from '../../products/entities/product.entity';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -14,6 +13,6 @@ dotenv.config();
     secret: process.env.JWT_SECRET
   }), TypeOrmModule.forFeature([Product])],
   controllers: [ProductsManageController],
-  providers: [ProductsManageService, { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }]
+  providers: [ProductsManageService]
 })
 export class ProductsManageModule { }

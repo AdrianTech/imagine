@@ -1,6 +1,6 @@
 import { Expose, Type } from "class-transformer";
 import { IsString, Length, IsEnum, IsEmail, IsNumber, IsPhoneNumber, Matches, IsNotEmpty, ValidateNested, IsPositive } from "class-validator";
-import { Product } from "src/products/entities/product.entity";
+import { DeliveryOption } from "src/admin/delivery-options/entities/delivery-option.entity";
 import { DELIVERY } from "../../shared/variables/enums";
 import { OrderProductsDto } from "./order-products.dto";
 
@@ -48,20 +48,6 @@ export class CreateOrderDto {
     @Type(() => OrderProductsDto)
     productsList: OrderProductsDto[]
 
-    // @IsNotEmpty()
-    // products: Product[]
-
-    // @IsNumber()
-    // @IsPositive()
-    // quantity: number;
-
-    // @IsBoolean()
-    // finalized?: boolean;
-
-    // @IsString()
-    // @Type(() => Date)
-    // finalizationDate: Date;
-
     @IsString()
     @IsEnum(DELIVERY)
     deliveryOption: DELIVERY;
@@ -74,4 +60,9 @@ export class CreateOrderDto {
 
     @Expose()
     updatedAt: Date;
+
+    @Expose()
+    @Type(() => DeliveryOption)
+    @IsNumber()
+    deliver: DeliveryOption
 }
