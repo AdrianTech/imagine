@@ -2,6 +2,11 @@
   <AdminSection>
     <div class="w-full sm:w-3/4 pt-7 pl-3">
       <section-title>Tutaj znajdziesz zamówienia klientów</section-title>
+      <select-items
+        :func="store.getOrders"
+        :clientPageName="'zamowienia'"
+        :serverPageName="'orders'"
+      />
       <ul class="divide-y divide-gray-300">
         <li
           class="p-2 flex flex-col sm:flex-row items-center odd:bg-sky-100"
@@ -26,8 +31,20 @@
             }}</span>
             zł
           </p>
+          <span
+            class="text-green-800 font-bold border-2 border-green-700 p-2"
+            v-if="order.finalized"
+          >
+            Sfinalizowana
+          </span>
         </li>
       </ul>
+      <paginate
+        v-if="store.metas.meta.totalItems"
+        :metas="store.metas"
+        :name="'orders'"
+        :getFunc="store.getOrders"
+      />
     </div>
   </AdminSection>
 </template>
@@ -36,11 +53,21 @@
 import AdminSection from "@/components/admin/AdminSection.vue";
 import { primaryButton } from "@/resusables/css-classes";
 import SectionTitle from "@/resusables/wrappers/SectionTitle.vue";
+import Paginate from "@/components/pagination/Paginate.vue";
 import { useAdminStore } from "@/stores/admin";
 import { convertDate } from "@/resusables/methods";
+import config from "@/resusables/config";
+import SelectItems from "@/components/commons/SelectItems.vue";
+import { useRoute } from "vue-router";
 
 const store = useAdminStore();
-store.getOrders();
+const query = useRoute().query;
+
+store.getOrders({
+  path: `${config.nestApiPath}/orders?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`,
+  method: "get",
+  withCredentials: true,
+});
 </script>
 
 <style lang="scss" scoped>

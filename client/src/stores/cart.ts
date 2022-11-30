@@ -54,7 +54,7 @@ export const useCartStore = defineStore('cart', {
 
                 const totalItems: number = this.cart.reduce((acc, current) => acc + current.quantity, 0)
                 const res = await axios.post(`${config.nestApiPath}/orders`, {
-                    name, surname, zipcode, city, phone, voivodeship, deliveryOption, totalPrice, productsList: cart, email, address, totalItems
+                    name, surname, zipcode, city, phone, voivodeship, deliver: deliveryOption, totalPrice, productsList: cart, email, address, totalItems
                 })
 
             } catch ({ response: { data: { message } } }) {

@@ -23,3 +23,8 @@ export interface IProduct {
     userId?: number
     user?: IUser | null,
 }
+
+export interface Metas {
+    meta: object;
+    links: object;
+}

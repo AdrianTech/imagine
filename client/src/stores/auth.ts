@@ -6,7 +6,7 @@ import config from '../resusables/config'
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: config.nestApiPath
+    baseURL: config.nestApiPath,
 })
 
 export const useAuthStore = defineStore('auth', {

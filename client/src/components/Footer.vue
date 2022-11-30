@@ -19,7 +19,17 @@
         duration-400
       "
     >
-      <router-link :to="{ name: 'admin' }">Admin</router-link>
+      <router-link
+        :to="{
+          name: 'admin',
+          query: {
+            page: 1,
+            limit: 1,
+            sortBy: 'createdAt:DESC',
+          },
+        }"
+        >Admin</router-link
+      >
     </button>
   </footer>
 </template>

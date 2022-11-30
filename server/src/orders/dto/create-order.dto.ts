@@ -48,10 +48,6 @@ export class CreateOrderDto {
     @Type(() => OrderProductsDto)
     productsList: OrderProductsDto[]
 
-    @IsString()
-    @IsEnum(DELIVERY)
-    deliveryOption: DELIVERY;
-
     @IsNumber()
     totalPrice: number;
 

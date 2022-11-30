@@ -2,7 +2,8 @@
  * Reusable methods for entire application
  */
 
-import axios from "axios";
+import { Setup } from "@/interfaces/methods";
+import axios, { AxiosRequestHeaders } from "axios";
 
 /**
  * This fuction checks if the element exists in the given array
@@ -36,4 +37,27 @@ export const getSingleItem = async (id: number | string, path: string, data?: ob
 }
 
 
-export const convertDate = (date: string, option: string): string => new Date(date).toLocaleString(option)
+export const convertDate = (date: string, option: string): string => new Date(date).toLocaleString(option);
+
+
+export const httpRequester = async (setup: Setup): Promise<object> => {
+
+    const result = { error: "", data: [] };
+
+    const instance = axios.create({
+        withCredentials: setup.withCredentials || false,
+        method: setup.method,
+        headers: setup.headers as AxiosRequestHeaders,
+        // data: setup.body
+    })
+
+    try {
+        const res = await instance(setup.path, { data: setup.body });
+        result.data = res.data;
+
+    } catch (error) {
+        result.error = "Something went wrong"
+    }
+
+    return result
+}

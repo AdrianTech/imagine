@@ -35,7 +35,13 @@
     >
       <ul class="list-decimal my-10">
         <li class="my-4 text-lg">
-          <router-link :to="{ name: 'orders' }">Zamówienia</router-link>
+          <router-link
+            :to="{
+              name: 'orders',
+              query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
+            }"
+            >Zamówienia</router-link
+          >
         </li>
         <li class="my-4 text-lg">
           <router-link :to="{ name: 'adminProducts' }">Produkty</router-link>

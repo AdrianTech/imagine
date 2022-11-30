@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FilterOperator, paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { DeliveryOption } from 'src/admin/delivery-options/entities/delivery-option.entity';
 import { Product } from 'src/products/entities/product.entity';
 import Helpers from 'src/shared/classes/Helpers';
 import { In, Repository } from 'typeorm';
@@ -12,11 +14,12 @@ import { IproductListHandle } from './interfaces';
 @Injectable()
 export class OrdersService {
   constructor(@InjectRepository(Order) private readonly orderRepository: Repository<Order>,
-    @InjectRepository(Product) private readonly productRepository: Repository<Product>
+    @InjectRepository(Product) private readonly productRepository: Repository<Product>,
+    @InjectRepository(DeliveryOption) private readonly deliveryRepository: Repository<DeliveryOption>
   ) { }
 
   async create(body: CreateOrderDto) {
-    const { purchases, totalPrice, totalItems } = await this.productListHandle(body.productsList);
+    const { purchases, totalPrice, totalItems } = await this.productListHandle(body.productsList, body.deliver);
     body.productsList = purchases;
     body.totalItems = totalItems;
     body.totalPrice = totalPrice;
@@ -24,28 +27,40 @@ export class OrdersService {
     return this.orderRepository.save(order);
   }
 
-  findAll() {
-    return this.orderRepository.find();
+  async findAll(query: PaginateQuery,): Promise<Paginated<CreateOrderDto>> {
+    return await paginate(query, this.orderRepository, {
+      relations: ["deliver"],
+      sortableColumns: ['id', 'createdAt', 'updatedAt', 'totalPrice', 'totalItems', 'email', 'voivodeship'],
+      searchableColumns: ['name', 'city', 'address', 'zipcode', 'surname', 'phone', 'voivodeship', 'email'],
+      defaultSortBy: [['createdAt', 'DESC']],
+      filterableColumns: {
+        finalized: [FilterOperator.EQ]
+      },
+      defaultLimit: 10,
+    })
   }
 
   async findOne(id: string) {
     return this.orderRepository.findOneBy({ id });
   }
 
-  update(id: string, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
+    const order: Order = await this.orderRepository.findOneBy({ id });
+    if (updateOrderDto.finalized) order.finalizationDate = new Date();
+    else if (updateOrderDto.finalized === false) order.finalizationDate = null;
+    if (!order) throw new NotFoundException();
+    return this.orderRepository.save({ ...order, ...updateOrderDto });
   }
 
   remove(id: string) {
     return this.orderRepository.delete(id);
   }
 
-  private async productListHandle(productList: object[]): Promise<IproductListHandle> {
-
+  private async productListHandle(productList: object[], id: any): Promise<IproductListHandle> {
     const ids: number[] = productList.map((product: OrderProductsDto) => product.id);
     if (!ids.length) throw new NotFoundException("Nie dodano żandnych produktów");
     const products: Product[] = await this.productRepository.find({ where: { id: In(ids) } });
-
+    const deliverCost: DeliveryOption = await this.deliveryRepository.findOneBy({ id });
     const purchases: OrderProductsDto[] = products.map((product: Product) => {
 
       const newObj: OrderProductsDto = { discount_price: null, price: product.price, title: product.title, id: product.id, quantity: 0, total: 0 };
@@ -66,6 +81,6 @@ export class OrdersService {
     const totalPrice = Helpers.calculate(purchases, 'total', '+');
     const totalItems = Helpers.calculate(purchases, 'quantity', '+');
 
-    return { purchases, totalPrice, totalItems }
+    return { purchases, totalPrice: totalPrice + deliverCost.price, totalItems }
   }
 }

@@ -14,7 +14,8 @@ import { ConfigModule } from '@nestjs/config';
 import { OrdersModule } from './orders/orders.module';
 import * as dotenv from 'dotenv';
 import { DeliveryOptionsModule } from './admin/delivery-options/delivery-options.module';
-import general from './configs/general';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 dotenv.config();
 
 @Module({
@@ -25,14 +26,11 @@ dotenv.config();
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    // cache: {
-    //   type: "database",
-    //   tableName: "cache",
-    //   duration: 300000
-    // },
     entities: ['**/*.entity.js'],
     synchronize: true,
-  }), AuthModule, UsersModule, ProductsModule, DecoratorsModule, ProductsManageModule, UsersManageModule, ConfigModule.forRoot({ isGlobal: true }), OrdersModule, DeliveryOptionsModule],
+  }), AuthModule, UsersModule, ProductsModule, DecoratorsModule, ProductsManageModule, UsersManageModule, ConfigModule.forRoot({ isGlobal: true }), OrdersModule, DeliveryOptionsModule, ServeStaticModule.forRoot({
+    rootPath: join(__dirname, 'public'),
+  })],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,

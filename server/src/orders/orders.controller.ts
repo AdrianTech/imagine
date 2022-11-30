@@ -5,6 +5,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { ROLES } from '../shared/variables/enums';
+import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('orders')
 export class OrdersController {
@@ -18,8 +19,8 @@ export class OrdersController {
   @UseGuards(JwtAuthGuard)
   @Roles(ROLES.Moderator, ROLES.Admin)
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Paginate() query: PaginateQuery): Promise<Paginated<CreateOrderDto>> {
+    return this.ordersService.findAll(query);
   }
   @UseGuards(JwtAuthGuard)
   @Roles(ROLES.Moderator, ROLES.Admin)

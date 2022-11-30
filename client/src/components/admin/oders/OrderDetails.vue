@@ -66,8 +66,11 @@
           Pokaż szczegóły zamówienia
         </button>
         <products :products="order.productsList" />
-        <button :class="[primaryButton]">
-          Zmień status zamówienia na <span class="font-bold">Wykonany</span>
+        <button :class="[primaryButton]" @click="updateOrderStatus">
+          Zmień status zamówienia na
+          <span class="font-bold">{{
+            order.finalized ? "Otwarty" : "Zamknięty"
+          }}</span>
         </button>
       </div>
     </div>
@@ -88,16 +91,26 @@ import { dialog } from "@/resusables/methods";
 import config from "@/resusables/config";
 const store = useAdminStore();
 const details = ref(false);
+const order = ref({});
 
 const id = useRoute().params.id as string;
 
-const order: object = (await getSingleItem(
+order.value = (await getSingleItem(
   id,
   `${config.nestApiPath}/orders/${id}`,
   store.orders
 )) as object;
 
 const fullname = computed(() => `${order.name} ${order.surname}`);
+
+const updateOrderStatus = async () => {
+  order.value = await store.updateOrder({
+    path: `${config.nestApiPath}/orders/${id}`,
+    method: "patch",
+    body: { finalized: !order.value.finalized },
+    withCredentials: true,
+  });
+};
 </script>
 
 <style lang="scss" scoped>

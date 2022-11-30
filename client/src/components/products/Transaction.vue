@@ -69,11 +69,14 @@
         v-model="data.deliveryOption"
         @change="addDeliveryCost"
       >
-        <option class="text-center" disabled value="">Sposób dostawy</option>
-        <option value="INPOST-12" name="12">Paczkomat Inpost (12 zł)</option>
-        <option value="DPD-15">Kurier DPD (15 zł)</option>
-        <option value="PERSONAL-0">Odbiór osobisty (0 zł)</option>
-        <option value="COD-14">Odbiór w Punkcie (14 zł)</option>
+        <option
+          class="text-center"
+          v-for="option in deliveryOptions"
+          :key="option.id"
+          :value="option.id"
+        >
+          {{ option.name }}
+        </option>
       </select>
       <button class="w-1/2 mx-auto" :class="[primaryButton]">
         Zamów obraz
@@ -103,20 +106,24 @@
 </template>
 
 <script lang="ts" setup>
+import config from "@/resusables/config";
 import { primaryButton } from "@/resusables/css-classes";
-import { dialog } from "@/resusables/methods";
+import { dialog, httpRequester } from "@/resusables/methods";
+import { useDeliveryStore } from "@/stores/delivery";
 import { useCartStore } from "@/stores/cart";
 import { useEventStore } from "@/stores/event";
 import { reactive, ref } from "@vue/reactivity";
-import { VueElement } from "@vue/runtime-dom";
-import { VueNode } from "@vue/test-utils/dist/types";
 import { useRoute } from "vue-router";
 import Modal from "../commons/Modal.vue";
 import Section from "../commons/Section.vue";
+import { storeToRefs } from "pinia";
 const cartStore = useCartStore();
 const eventStore = useEventStore();
+const delivery = useDeliveryStore();
+const { getAllDelivers } = delivery;
 
-const deliveryCost = ref(0);
+const deliveryCost = ref<number>(0);
+const { deliveryOptions } = storeToRefs(delivery);
 
 const data = reactive({
   name: "",
@@ -127,17 +134,24 @@ const data = reactive({
   email: "",
   zipcode: "",
   voivodeship: "",
-  deliveryOption: "",
+  deliveryOption: null,
   totalPrice: cartStore.cartTotalSum,
   cart: cartStore.cart,
 });
 
 const addDeliveryCost = (event: Event) => {
-  const option = (event.target as HTMLInputElement).value;
-  const search = option.search(/[-]/);
-  const cost = option.slice(search + 1);
-  deliveryCost.value = cost;
+  const cost = deliveryOptions.value.find(
+    (option: object) => option.id === +event.target.value
+  );
+  deliveryCost.value = cost.price;
 };
+
+if (!deliveryOptions.value.length) {
+  await getAllDelivers({
+    path: `${config.nestApiPath}/admin/delivery`,
+    method: "get",
+  });
+}
 </script>
 
 <style lang="scss" scoped>

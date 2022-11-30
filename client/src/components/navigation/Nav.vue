@@ -155,7 +155,11 @@
             <router-link
               :to="{
                 name: 'products',
-                query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
+                query: {
+                  page: 1,
+                  limit: 5,
+                  sortBy: 'createdAt:DESC',
+                },
               }"
               :class="[achoreNav]"
               >Obrazy</router-link

@@ -15,7 +15,12 @@
           <Product :product="product" />
         </li>
       </ul>
-      <Paginate v-if="store.metas.meta.totalItems" :metas="store.metas" />
+      <Paginate
+        v-if="store.metas.meta.totalItems"
+        :metas="store.metas"
+        :name="'products'"
+        :getFunc="store.getProducts"
+      />
     </div>
   </Section>
 </template>

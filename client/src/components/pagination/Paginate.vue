@@ -24,17 +24,17 @@
 </template>
 
 <script lang="ts" setup>
-import { useProductsStore } from "@/stores/products";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
   metas: { type: Object, required: true },
+  name: { type: String, required: true },
+  getFunc: { type: Function, required: true },
 });
 const router = useRouter();
 // const curr = (currentPage + 1).toString();
 // const test = next?.search(/[?]/);
 // const query  = next?.slice(test)
-const store = useProductsStore();
 
 const firstPage = () => {
   pageHandler(props.metas.links.first);
@@ -54,8 +54,11 @@ const lastPage = () => {
 
 const pageHandler = (targetLink: string) => {
   if (!targetLink) return;
-  const changePath = targetLink?.replace("http://localhost:3000/products", "");
-  store.getProducts(targetLink);
+  const changePath = targetLink?.replace(
+    `http://localhost:3000/${props.name}`,
+    ""
+  );
+  props.getFunc({ path: targetLink, method: "get", withCredentials: true });
   router.push(changePath);
 };
 </script>
