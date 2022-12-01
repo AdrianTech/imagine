@@ -45,7 +45,7 @@ export const httpRequester = async (setup: Setup): Promise<object> => {
     const result = { error: "", data: [] };
 
     const instance = axios.create({
-        withCredentials: setup.withCredentials || false,
+        withCredentials: true,
         method: setup.method,
         headers: setup.headers as AxiosRequestHeaders,
         // data: setup.body

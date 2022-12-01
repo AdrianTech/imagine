@@ -5,7 +5,9 @@ import { useEventStore } from "./event";
 import config from '../resusables/config'
 
 const instance = axios.create({
+    //
     withCredentials: true,
+    // withCredentials: true,
     baseURL: config.nestApiPath,
 })
 
@@ -17,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async users() {
             try {
-                const res = await axios.get('http://localhost:3000/users', { withCredentials: true });
+                const res = await axios.get(`${config.nestApiPath}/users`, { withCredentials: true });
             } catch (err) {
 
             }
@@ -25,7 +27,7 @@ export const useAuthStore = defineStore('auth', {
         async login(email: string, password: string, remember: boolean): Promise<boolean> {
             const event = useEventStore();
             try {
-                const res = await axios.post('http://localhost:3000/users/login', {
+                const res = await axios.post(`${config.nestApiPath}/users/login`, {
                     password,
                     email
                 }, {
@@ -43,7 +45,7 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             const event = useEventStore();
             try {
-                instance.get('/users/logout')
+                instance.get('/users/logout', { withCredentials: true })
                 this.deleteRemember();
                 this.isLogged = false;
                 this.user = null;
@@ -56,6 +58,7 @@ export const useAuthStore = defineStore('auth', {
          * Get request it's invoke every time when function getRemember return true
          */
         async rememberLogin() {
+
             try {
                 const res = await instance.get('/auth/login');
                 this.isLogged = true;

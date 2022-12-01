@@ -22,12 +22,14 @@ export const admin: Array<RouteRecordRaw> = [
                 path: 'zamowienia',
                 name: 'orders',
                 component: Orders,
+                beforeEnter: [routeGuard]
             },
             {
                 path: 'zamowienia/:id',
                 name: 'orderDetails',
                 component: OrderDetails,
-                props: true
+                props: true,
+                beforeEnter: [routeGuard]
             },
             {
                 path: 'produkty',

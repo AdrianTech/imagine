@@ -39,10 +39,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     component: Login,
-    beforeEnter: (to, from, next) => {
-      const store = useAuthStore()
-      if (store.isLogged) next();
-    }
+    // beforeEnter: (to, from, next) => {
+    //   const store = useAuthStore()
+    //   // if (store.isLogged) next();
+    // }
   },
   {
     path: '/zakup',

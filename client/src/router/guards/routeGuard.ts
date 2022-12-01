@@ -9,6 +9,7 @@ export const routeGuard = (to: any, from: any, next: any) => {
     if (!store.isLogged || store.user?.role !== ROLES.ADMIN && store.user?.role !== ROLES.MODERATOR) {
 
         eventStore.eventMessageHelper('Brak uprawnień')
+
         return next({ name: 'login' })
     }
     return next()

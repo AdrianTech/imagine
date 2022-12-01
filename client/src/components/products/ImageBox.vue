@@ -1,7 +1,7 @@
 <template>
   <div class="my-2" :class="[setClassImageBox()]">
     <div :class="props.picSize" @click="() => showImg(1, props?.images[0])">
-      <img :src="'http://localhost:3000/uploads/' + props?.images[0]" />
+      <img :src="`${config.nestApiPath}/uploads/` + props?.images[0]" />
     </div>
     <div v-if="props.picSize === 'normal'" class="flex">
       <div
@@ -10,7 +10,7 @@
         :key="index"
         @click="() => showImg(index, src)"
       >
-        <img :src="'http://localhost:3000/uploads/' + src" />
+        <img :src="`${config.nestApiPath}/uploads/` + src" />
       </div>
     </div>
   </div>
@@ -28,7 +28,9 @@ import VueEasyLightbox from "vue-easy-lightbox";
 import { ref } from "@vue/reactivity";
 import { PropType } from "@vue/runtime-core";
 import { useProductsStore } from "@/stores/products";
+import config from "@/resusables/config";
 const store = useProductsStore();
+config.nestApiPath;
 
 const props = defineProps({
   images: { type: Array as PropType<string[]>, required: true },
@@ -40,7 +42,7 @@ const indexRef = ref(0);
 const imgsRef = ref([]) as any;
 
 const showImg = (index: number, src: string) => {
-  imgsRef.value = `http://localhost:3000/uploads/${src}`;
+  imgsRef.value = `${config.nestApiPath}/uploads/${src}`;
   visibleRef.value = true;
 };
 

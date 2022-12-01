@@ -18,7 +18,7 @@ export const useProductsStore = defineStore('products', {
             return arrayCopy;
         },
         async getProducts(query?: any): Promise<any> {
-            const defaultQuery = "http://localhost:3000/products?page=1&limit=5&sortBy=createdAt:DESC";
+            const defaultQuery = `${config.nestApiPath}/products?page=1&limit=5&sortBy=createdAt:DESC`;
             const store = useEventStore();
             store.loading = true;
 

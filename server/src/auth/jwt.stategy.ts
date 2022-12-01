@@ -10,7 +10,6 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
             usernameField: "email",
             jwtFromRequest: ExtractJwt.fromExtractors([(request: Request) => {
                 let data = request?.cookies["authToken"];
-
                 if (!data) {
                     return null;
                 }
