@@ -3,6 +3,8 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { useEventStore } from './event';
 import config from '../resusables/config'
+import { httpRequester } from '@/resusables/methods';
+import { Setup } from '@/interfaces/methods';
 
 const httClient = axios.create({
     baseURL: config.nestApiPath
@@ -17,16 +19,15 @@ export const useProductsStore = defineStore('products', {
             arrayCopy.shift();
             return arrayCopy;
         },
-        async getProducts(query?: any): Promise<any> {
+        async getProducts(setup: Setup): Promise<any> {
             const defaultQuery = `${config.nestApiPath}/products?page=1&limit=5&sortBy=createdAt:DESC`;
             const store = useEventStore();
-            store.loading = true;
 
             try {
-                const { data: { data, links, meta } } = await axios(query ? query : defaultQuery);
-                this.products = data
-                this.metas.links = links;
-                this.metas.meta = meta;
+                const { data }: any = await httpRequester(setup);
+                this.products = data.data
+                this.metas.links = data.links;
+                this.metas.meta = data.meta;
                 return data;
             } catch (error) {
                 const eventStore = useEventStore();

@@ -1,29 +1,37 @@
 <template>
   <div
+    v-if="props.metas.meta.totalPages !== 1"
     class="
       px-0
       sm:px-4
       py-2
       border-y-2 border-gray-200
       w-full
-      sm:w-1/2
+      lg:w-1/2
       mx-auto
       mt-3
       text-center
     "
   >
-    <button @click="firstPage">Pierwsza</button>
-    <button class="font-bold text-xl" @click="nextPage">&gt;</button>
-    <span
+    <button @click="firstPage"><i class="fa-solid fa-backward"></i></button>
+    <button class="font-bold text-xl" @click="nextPage">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+    <span class="md:mx-2 text-lg"
       >Strona: {{ props.metas.meta.currentPage }} z
       {{ props.metas.meta.totalPages }}</span
     >
-    <button class="font-bold text-xl" @click="previousPage">&lt;</button>
-    <button @click="lastPage">Ostatnia</button>
+    <button class="font-bold text-xl" @click="previousPage">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <button @click="lastPage">
+      <i class="fa-solid fa-forward"></i>
+    </button>
   </div>
 </template>
 
 <script lang="ts" setup>
+import config from "@/resusables/config";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -55,7 +63,7 @@ const lastPage = () => {
 const pageHandler = (targetLink: string) => {
   if (!targetLink) return;
   const changePath = targetLink?.replace(
-    `http://localhost:3000/${props.name}`,
+    `${config.nestApiPath}/${props.name}`,
     ""
   );
   props.getFunc({ path: targetLink, method: "get", withCredentials: true });
@@ -65,7 +73,7 @@ const pageHandler = (targetLink: string) => {
 
 <style lang="scss" scoped>
 button {
-  margin: 5px 8px;
+  margin: 2px 4px;
   border: 2px solid #080172;
   border-radius: 7px;
   padding: 5px 12px;

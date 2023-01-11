@@ -4,6 +4,7 @@
   <Suspense>
     <router-view />
   </Suspense>
+  <message />
   <Footer />
 </template>
 
@@ -11,6 +12,7 @@
 import Nav from "./components/navigation/Nav.vue";
 import Footer from "./components/Footer.vue";
 import Main from "@/views/Admin/Main.vue";
+import Message from "@/components/commons/Message.vue";
 import { useAuthStore } from "./stores/auth";
 const store = useAuthStore();
 

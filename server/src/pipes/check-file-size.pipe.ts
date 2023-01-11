@@ -4,6 +4,7 @@ import { Injectable, PipeTransform, HttpException, HttpStatus, UnsupportedMediaT
 export class CheckFileSizePipe implements PipeTransform {
   constructor(public fileSize: number) { }
   transform(files: any) {
+
     if (!files) throw new UnsupportedMediaTypeException();
 
     files.forEach((file: any) => {

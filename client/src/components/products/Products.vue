@@ -31,17 +31,21 @@ import Product from "./Product.vue";
 import Section from "../commons/Section.vue";
 import { useRoute, useRouter } from "vue-router";
 import Paginate from "../pagination/Paginate.vue";
+import config from "@/resusables/config";
 const store = useProductsStore();
-let query = useRoute().query;
-if (!store.products.length && store.products.length !== +query.limit)
-  store.getProducts();
+const { page, limit, sortBy } = useRoute().query;
+if (!store.products.length && store.products.length !== +limit)
+  store.getProducts({
+    path: `${config.nestApiPath}/products?page=${page}&limit=${limit}&sortBy=${sortBy}`,
+    method: "get",
+  });
 const router = useRouter();
 
 const changeLimit = ({ target: { value } }: { target: { value: string } }) => {
-  const link = `products?page=${query.page}&limit=${value}&sortBy=${query.sortBy}`;
-  const fullPath = `http://localhost:3000/${link}`;
+  const link = `products?page=${page}&limit=${value}&sortBy=${sortBy}`;
+  const fullPath = `${config.nestApiPath}/${link}`;
   router.replace(link);
-  store.getProducts(fullPath);
+  store.getProducts({ path: fullPath, method: "get" });
 };
 </script>
 

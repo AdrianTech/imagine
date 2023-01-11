@@ -9,6 +9,7 @@ import { ProductsManageService } from './products-manage.service';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { ProductsService } from '../../products/products.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { FormDataRequest } from 'nestjs-form-data';
 
 @Controller('admin/products')
 @UseGuards(JwtAuthGuard)
@@ -18,7 +19,7 @@ export class ProductsManageController {
   @Roles(ROLES.Moderator, ROLES.Admin)
   @Post()
   @UseInterceptors(FilesInterceptor('files', 5))
-  public create(@Body() createProductDto: CreateProductDto, @UploadedFiles(new CheckFileSizePipe(4)) files: Array<Express.Multer.File>) {
+  public create(@Body() createProductDto: any, @UploadedFiles() files: Array<Express.Multer.File>) {
     return this.productsService.create(createProductDto, files);
   }
 

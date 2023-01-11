@@ -4,15 +4,16 @@
     class="
       fade
       font-primary
-      bg-slate-100
+      bg-sky-100
+      border border-l-2 border-blue-300
       h-screen
-      absolute
+      fixed
       z-50
       inline-block
       transition-[width]
       duration-300
     "
-    :class="store.navBar ? 'w-[250px]' : 'w-[80px]'"
+    :class="store.navBar ? 'w-[200px]' : 'w-[30px]'"
   >
     <button
       @click="store.navBar = !store.navBar"
@@ -23,6 +24,7 @@
         py-2
         px-4
         rounded-sm
+        z-20
         bg-slate-600
         text-yellow-50
       "
@@ -30,11 +32,12 @@
       {{ store.navBar ? "X" : ">>" }}
     </button>
     <nav
-      class="flex flex-col w-full relative transition-opacity ml-2"
+      class="flex flex-col w-full relative transition-opacity px-4"
       :class="store.navBar ? 'opacity-100 delay-150' : 'opacity-0'"
     >
-      <ul class="list-decimal my-10">
-        <li class="my-4 text-lg">
+      <h3 class="text-green-900 uppercase">Admin Panel 0.8.7</h3>
+      <ul class="my-10 text-lg md:text-xl">
+        <li class="my-4">
           <router-link
             :to="{
               name: 'orders',
@@ -43,12 +46,26 @@
             >Zamówienia</router-link
           >
         </li>
-        <li class="my-4 text-lg">
-          <router-link :to="{ name: 'adminProducts' }">Produkty</router-link>
+        <li class="my-4">
+          <router-link
+            :to="{
+              name: 'adminProducts',
+              query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
+            }"
+            >Produkty</router-link
+          >
         </li>
-        <li class="my-4 text-lg"><a href="">Użytkownicy</a></li>
-        <li class="my-4 text-lg"><a href="">Centrum analiz</a></li>
-        <li class="my-4 text-lg">
+        <li class="my-4">
+          <router-link
+            :to="{
+              name: 'adminUsers',
+              query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
+            }"
+            >Użytkownicy</router-link
+          >
+        </li>
+        <li class="my-4"><a href="">Centrum analiz</a></li>
+        <li class="my-4">
           <button @click="$router.push({ name: 'home' })">Powrót</button>
         </li>
       </ul>
@@ -62,7 +79,7 @@ const store = useAdminStore();
 </script>
 
 <style lang="scss" scoped>
-ul {
-  list-style: upper-roman;
-}
+// ul {
+//   list-style: ;
+// }
 </style>

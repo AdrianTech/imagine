@@ -1,5 +1,6 @@
 import { ExecutionContext } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt";
+import { UploadFiles } from "./UploadFiles";
 type OperationType = '*' | '+' | "/" | "-";
 
 class Helpers {
@@ -23,6 +24,14 @@ class Helpers {
             else if (operationType === "*") return accumulator * current[targetValue];
             else return accumulator / current[targetValue];
         }, 0)
+    }
+
+    public removeImagesHandle(gallery: string[], images: string[]): string[] {
+        const uploadedFile = new UploadFiles()
+        images.forEach((image: string) => {
+            uploadedFile.unlinkFile({ files: images, filePath: image, fileDest: '/uploads/' })
+        })
+        return gallery.filter((img: string) => !images.includes(img))
     }
 }
 

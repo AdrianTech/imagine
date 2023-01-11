@@ -72,6 +72,7 @@
             order.finalized ? "Otwarty" : "Zamknięty"
           }}</span>
         </button>
+        <button-back>Powrót</button-back>
       </div>
     </div>
   </admin-section>
@@ -82,6 +83,7 @@ import { getSingleItem } from "@/resusables/methods";
 import { useAdminStore } from "@/stores/admin";
 import AdminSection from "@/components/admin/AdminSection.vue";
 import SectionTitle from "@/resusables/wrappers/SectionTitle.vue";
+import ButtonBack from "@/resusables/wrappers/ButtonBack.vue";
 import Products from "./List.vue";
 import { useRoute } from "vue-router";
 import { computed, ref } from "@vue/runtime-core";
@@ -101,7 +103,7 @@ order.value = (await getSingleItem(
   store.orders
 )) as object;
 
-const fullname = computed(() => `${order.name} ${order.surname}`);
+const fullname = computed(() => `${order.value.name} ${order.value.surname}`);
 
 const updateOrderStatus = async () => {
   order.value = await store.updateOrder({

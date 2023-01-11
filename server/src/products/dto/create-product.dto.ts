@@ -20,6 +20,7 @@ export class CreateProductDto {
     @Expose()
     price: number;
 
+
     @ValidateIf(o => o.discount_start || o.discount_end)
     @IsNumber({ maxDecimalPlaces: 2 })
     @Min(1.00)
@@ -48,8 +49,7 @@ export class CreateProductDto {
 
     @IsOptional()
     @Expose()
-    @IsBoolean()
-    isAvailable: boolean;
+    isAvailable: any;
 
     @Expose()
     @IsString()

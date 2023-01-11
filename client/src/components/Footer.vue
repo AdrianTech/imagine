@@ -24,7 +24,7 @@
           name: 'admin',
           query: {
             page: 1,
-            limit: 1,
+            limit: 5,
             sortBy: 'createdAt:DESC',
           },
         }"
