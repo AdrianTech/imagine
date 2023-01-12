@@ -34,7 +34,7 @@ export class UsersManageService {
     public async remove(id: number) {
         try {
             const user = await this.userRepository.findOneBy({ id });
-            // await this.userRepository.remove(user)
+            await this.userRepository.remove(user)
             return true
         } catch (err) {
             dbErrorHandler('404');

@@ -17,6 +17,7 @@
       :getFunc="store.getProducts"
     />
     <button :class="primaryButton" @click="showForm = !showForm">
+      <i class="fa-solid fa-circle-plus text-[18px] text-green-700 mr-2"></i>
       Dodaj produkt
     </button>
   </div>

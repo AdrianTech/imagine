@@ -1,12 +1,12 @@
 <template>
   <div class="overflow-x-auto relative sm:rounded-lg my-5">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <table class="w-full text-sm text-left text-gray-900 dark:text-gray-900">
       <thead
         class="
-          text-xs text-gray-700
+          text-xs text-gray-100
           uppercase
           bg-gray-50
-          dark:bg-gray-700 dark:text-gray-400
+          dark:bg-blue-800 dark:text-gray-100
         "
       >
         <tr>
@@ -39,7 +39,7 @@
         <tr
           v-for="item in props.data"
           :key="item.id"
-          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+          class="bg-white border-b border-b-[#6073ed] dark:bg-slate-100"
         >
           <td
             class="py-4 px-6"
@@ -65,10 +65,10 @@
               Usuń
             </button>
           </td>
-          <td class="py-4 px-6 text-left">
+          <td class="py-4 px-6 text-left text-green-900">
             <button
               @click="props.action('details', item.id)"
-              class="font-medium text-gray-400"
+              class="font-medium"
             >
               <i class="fa fa-eye mr-1" aria-hidden="true"></i>
               Szczegóły

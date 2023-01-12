@@ -7,8 +7,6 @@ export const useEventStore = defineStore('main', {
         eventMessageHelper(msg: string, error?: boolean) {
             this.eventMessage = msg;
             if (error) this.isError = true;
-            // console.log(this.isError);
-
             setTimeout(() => {
                 this.eventMessage = "";
                 this.isError = false;
