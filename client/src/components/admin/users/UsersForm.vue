@@ -97,7 +97,6 @@
         Powrót
       </button>
     </div>
-    <message />
   </div>
 </template>
 
@@ -105,8 +104,7 @@
 import { IUser } from "@/interfaces/user";
 import config from "@/resusables/config";
 import { useAdminStore } from "@/stores/admin";
-import { reactive, PropType, ref, toRefs, toRef } from "vue";
-import Message from "@/components/commons/Message.vue";
+import { PropType, ref } from "vue";
 import { useEventStore } from "@/stores/event";
 import { reset } from "@formkit/core";
 import { formBottomNav, formAdmin } from "@/resusables/css-classes";
@@ -129,12 +127,6 @@ const showPasswordFields = () => (editPassword.value = !editPassword.value);
 
 const disableSelectOption = (name: string) =>
   user?.role === name ? true : false;
-
-// const data = reactive({
-//   username: "",
-//   role: user?.role || "user",
-//   email: "",
-// });
 
 const deleteRequredInValidation = (str: string): string => {
   if (props.action) return str.replace("required|", "");

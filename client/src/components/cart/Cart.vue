@@ -3,7 +3,7 @@
     <p class="mr-2 flex-1">{{ title }}</p>
     <span class="font-bold">{{ isPromotion ? discount_price : price }} zł</span
     ><img
-      :src="'http://localhost:3000/uploads/' + gallery[0]"
+      :src="`${config.nestApiPath}/uploads/` + gallery[0]"
       alt=""
       class="mb-2"
     />
@@ -20,6 +20,7 @@
 
 <script lang="ts" setup>
 import { IProduct } from "@/interfaces/product";
+import config from "@/resusables/config";
 import { primaryButton } from "@/resusables/css-classes";
 import { useCartStore } from "@/stores/cart";
 import { PropType, ref } from "@vue/runtime-core";

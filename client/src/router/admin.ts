@@ -10,15 +10,13 @@ import OrderDetails from "@/components/admin/oders/OrderDetails.vue";
 export const admin: Array<RouteRecordRaw> = [
     {
         path: '/admin',
-        // name: "admin",
-        // component: Admin,
         meta: { access: 'admin' },
         children: [
             {
                 path: '/',
                 name: 'admin',
                 redirect: { name: 'orders' },
-                beforeEnter: [routeGuard]
+                // beforeEnter: [routeGuard]
             },
             {
                 path: 'zamowienia',
