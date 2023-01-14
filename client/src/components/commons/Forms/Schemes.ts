@@ -22,4 +22,14 @@ export const productScheme = [
     { $formkit: 'text', name: "base", label: "Podkład", help: "", validation: "required|length: 3,100" },
 ]
 
+export const filterProductScheme = [
+    { $formkit: 'text', name: "production_year", label: "Rok produkcji", help: "", validation: "number" },
+    { $formkit: 'text', name: "style", label: "Styl", help: "", validation: "length: 3,100" },
+    { $formkit: 'text', name: "base", label: "Podkład", help: "", validation: "length: 3,100" },
+    {
+        $formkit: 'range', name: "rangePriceFrom", label: "Cena Od: $rangePriceFrom", help: "", validation: "number|min:1",
+        min: '100', max: '10000'
+    },
+]
+
 

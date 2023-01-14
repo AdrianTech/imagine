@@ -1,7 +1,12 @@
 <template>
   <Section>
     <div class="products">
-      <form v-if="store.metas.meta.totalItems">
+      <select-items
+        :func="store.getProducts"
+        clientPageName="products"
+        serverPageName="products"
+      />
+      <!-- <form v-if="store.metas.meta.totalItems">
         <select @change="changeLimit">
           <option value="5">Wyświetla 5</option>
           <option value="1">Wyświetl 1</option>
@@ -9,7 +14,7 @@
           <option value="20">Wyświetl 20</option>
           <option value="50">Wyświetl 50</option>
         </select>
-      </form>
+      </form> -->
       <ul class="grid grid-cols-1 md:grid-cols-3">
         <li v-for="product in store.products" :key="product.id">
           <Product :product="product" />
@@ -32,6 +37,7 @@ import Section from "../commons/Section.vue";
 import { useRoute, useRouter } from "vue-router";
 import Paginate from "../pagination/Paginate.vue";
 import config from "@/resusables/config";
+import SelectItems from "@/components/commons/SelectItems.vue";
 const store = useProductsStore();
 const { page, limit, sortBy } = useRoute().query;
 if (!store.products.length && store.products.length !== +limit)

@@ -35,7 +35,7 @@
       class="flex flex-col w-full relative transition-opacity px-4"
       :class="store.navBar ? 'opacity-100 delay-150' : 'opacity-0'"
     >
-      <h3 class="text-green-900 uppercase">Admin Panel 0.8.7</h3>
+      <h3 class="text-green-900 uppercase">Admin Panel 0.8.9</h3>
       <ul class="my-10 text-lg md:text-xl">
         <li class="my-4">
           <router-link

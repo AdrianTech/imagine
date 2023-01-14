@@ -1,11 +1,17 @@
 <template>
-  <div class="product p-2">
+  <div class="product p-2 relative">
     <router-link
       class="text-lg"
       :to="{ name: 'productDetails', params: { id: props.product.id } }"
       >{{ props.product.title }}</router-link
     >
     <ImageBox :images="props.product.gallery" picSize="small" />
+    <p
+      class="text-red-800 text-sm font-bold uppercase pb-1"
+      v-if="!props.product.isAvailable"
+    >
+      Niedostępny
+    </p>
     <button @click="cartStore.addToCart(props.product)">
       Dodaj do koszyka
     </button>

@@ -1,6 +1,6 @@
 <template>
   <button
-    @click="!props.externalFunc && $router.back()"
+    @click="!dataProps.externalFunc && $router.back()"
     class="flex items-center text-[19px] mx-3"
   >
     <i class="fa-solid fa-circle-arrow-left text-red-800 mr-1"></i><slot></slot>
@@ -8,11 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
+const dataProps = defineProps<{
   externalFunc?: boolean;
 }>();
-console.log(props.externalFunc);
 </script>
-
-<style lang="scss" scoped>
-</style>

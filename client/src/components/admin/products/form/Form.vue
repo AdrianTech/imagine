@@ -1,12 +1,13 @@
 <template>
   <div class="pb-24 sm:pb-10 px-2 w-full md:w-1/2 mx-auto">
-    <h2 class="ml-2 text-xl mb-3 uppercase">
+    <h2 class="ml-2 text-xl md:text-2xl mb-3 uppercase">
       {{ action ? `Edytuj obraz: ${product?.title}` : `Dodaj nowy obraz` }}
     </h2>
     <FormKit type="form" @submit="submit" autocomplete="off">
       <FormKit
         type="text"
         label="Nazwa obrazu"
+        prefix-icon="text"
         name="title"
         :placeholder="product?.title || 'Nazwa obrazu'"
         :validation="deleteRequredInValidation('required|length:5,100')"
@@ -15,6 +16,7 @@
         type="number"
         label="Cena obrazu"
         name="price"
+        prefix-icon="multiCurrency"
         step="0.01"
         :placeholder="product?.price || 'Cena obrazu'"
         :validation="deleteRequredInValidation('required|number|min:1')"
@@ -23,6 +25,7 @@
       <FormKit
         type="textarea"
         label="Opis"
+        prefix-icon="text"
         name="description"
         :placeholder="product?.description || 'Opis obrazu'"
         :validation="deleteRequredInValidation('required|length:10, 500')"
@@ -30,6 +33,7 @@
       <FormKit
         type="number"
         label="Szerokość"
+        prefix-icon="number"
         name="dimension_x"
         :placeholder="product?.dimension_x || 'Szerokość obrazu'"
         :validation="deleteRequredInValidation('required|number|min:1')"
@@ -37,6 +41,7 @@
       <FormKit
         type="number"
         label="Długość"
+        prefix-icon="number"
         name="dimension_y"
         :placeholder="product?.dimension_y || 'Długość obrazu'"
         :validation="deleteRequredInValidation('required|number|min:1')"
@@ -44,6 +49,7 @@
       <FormKit
         type="text"
         label="Rok produkcji"
+        prefix-icon="date"
         name="production_year"
         :placeholder="product?.production_year || 'Rok produkcji'"
         :validation="deleteRequredInValidation('required|')"
@@ -52,6 +58,7 @@
       <FormKit
         type="text"
         label="Technika malarska"
+        prefix-icon="text"
         name="technique"
         :placeholder="product?.technique || 'Technika malarska'"
         :validation="deleteRequredInValidation('required|length: 3,100')"
@@ -59,6 +66,7 @@
       <FormKit
         type="text"
         label="Styl malarski"
+        prefix-icon="text"
         name="style"
         :placeholder="product?.style || 'Styl malarski'"
         :validation="deleteRequredInValidation('required|length: 3,100')"
@@ -66,6 +74,7 @@
       <FormKit
         type="text"
         label="Podkład"
+        prefix-icon="text"
         name="base"
         :placeholder="product?.base || 'Podkład (np. płótno, drewno)'"
         :validation="deleteRequredInValidation('required|length: 3,100')"
@@ -73,6 +82,7 @@
       <FormKit
         type="select"
         label="Dostępność"
+        prefix-icon="select"
         name="isAvailable"
         :validation="deleteRequredInValidation('required|')"
         :options="[
@@ -95,6 +105,7 @@
       <FormKit
         v-if="!action"
         type="file"
+        prefix-icon="fileImage"
         label="Zdjęcia obrazu"
         name="files"
         accept=".jpg,.jpeg,.png"
@@ -202,8 +213,6 @@ const deleteRequredInValidation = (str: string): string => {
 };
 
 const submit = async (data: any) => {
-  console.log(data);
-
   Object.keys(data).forEach((key) => {
     if (!data[key]) delete data[key];
   });

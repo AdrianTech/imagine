@@ -36,9 +36,10 @@ export const useAuthStore = defineStore('auth', {
                 if (remember) this.setRemember();
                 this.isLogged = true;
                 this.user = res.data;
+                event.eventMessageHelper('Logowanie powiodło się')
                 return true;
             } catch (err) {
-                event.eventMessageHelper('Something went wrong')
+                event.eventMessageHelper('Something went wrong', true)
                 return false
             }
         },

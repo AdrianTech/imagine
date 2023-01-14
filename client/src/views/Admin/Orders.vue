@@ -4,8 +4,8 @@
       <section-title>Tutaj znajdziesz zamówienia klientów</section-title>
       <select-items
         :func="store.getOrders"
-        :clientPageName="'zamowienia'"
-        :serverPageName="'orders'"
+        clientPageName="zamowienia"
+        serverPageName="orders"
       />
       <ul class="divide-y divide-gray-300">
         <li
@@ -40,9 +40,9 @@
         </li>
       </ul>
       <paginate
-        v-if="store.metas.meta.totalItems"
+        v-if="store.metas.meta?.totalItems"
         :metas="store.metas"
-        :name="'orders'"
+        name="orders"
         :getFunc="store.getOrders"
       />
     </div>

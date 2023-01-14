@@ -8,8 +8,10 @@ import { plugin, defaultConfig } from '@formkit/vue'
 import { pl, en } from '@formkit/i18n'
 
 const pinia = createPinia()
+const app = createApp(App);
 
-
-createApp(App).use(pinia).use(router).use(VueEasyLightbox).use(plugin, defaultConfig({
+app.use(pinia).use(router).use(VueEasyLightbox).use(plugin, defaultConfig({
     locales: { pl, en }, locale: 'pl', theme: 'genesis'
-})).mount('#app')
+})).mount('#app');
+
+app.config.globalProperties.$log = console.log;

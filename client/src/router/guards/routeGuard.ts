@@ -7,6 +7,8 @@ export const routeGuard = (to: any, from: any, next: any) => {
     const eventStore = useEventStore()
 
     if (!store.isLogged || store.user?.role !== ROLES.ADMIN && store.user?.role !== ROLES.MODERATOR) {
+        console.log('here');
+
 
         eventStore.eventMessageHelper('Brak uprawnień')
 

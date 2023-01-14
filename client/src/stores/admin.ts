@@ -1,8 +1,6 @@
 import { HttpRequester, Setup } from "@/interfaces/methods";
 import { IProduct, Metas } from "@/interfaces/product";
-import config from "@/resusables/config";
 import { httpRequester } from "@/resusables/methods";
-import axios from "axios";
 import { defineStore } from "pinia";
 import { useEventStore } from "./event";
 import { useProductsStore } from "./products";
@@ -10,11 +8,6 @@ import { useProductsStore } from "./products";
 type Params = {
     storeData: 'products' | 'orders' | 'users';
 }
-
-// const instance = axios.create({
-//     withCredentials: true,
-//     baseURL: config.nestApiPath
-// })
 
 export const useAdminStore = defineStore('admin', {
     state: () => ({
@@ -86,7 +79,7 @@ export const useAdminStore = defineStore('admin', {
         async getAll(setup: Setup, property: Params['storeData']) {
             try {
                 const { data }: any = await httpRequester(setup);
-                this[property] = data;
+                this[property] = data.hasOwnProperty('data') ? data.data : data;
                 this.metas.links = data.links;
                 this.metas.meta = data.meta;
             } catch (err) {

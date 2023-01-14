@@ -3,7 +3,6 @@
     v-if="!$route.meta.access"
     class="
       font-primary
-      bg-white
       border-gray-200
       px-4
       lg:px-6
@@ -12,6 +11,7 @@
       absolute
       w-full
       top-0
+      z-50
     "
   >
     <div

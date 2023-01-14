@@ -12,6 +12,3 @@ import { useAdminStore } from "@/stores/admin";
 
 const store = useAdminStore();
 </script>
-
-<style lang="scss" scoped>
-</style>

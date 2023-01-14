@@ -3,7 +3,7 @@
  */
 
 import { Setup } from "@/interfaces/methods";
-import axios, { AxiosError, AxiosRequestHeaders } from "axios";
+import axios, { AxiosRequestHeaders } from "axios";
 
 /**
  * This fuction checks if the element exists in the given array

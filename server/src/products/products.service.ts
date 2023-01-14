@@ -13,13 +13,21 @@ export class ProductsService {
   constructor(@InjectRepository(Product) private productRepository: Repository<Product>) { }
   private readonly uploadedFile: UploadFiles = new UploadFiles()
 
-  async findAll(query: PaginateQuery, relation?: any): Promise<Paginated<CreateProductDto>> {
+  async findAll(query: PaginateQuery, relation?: any, availability: boolean = false): Promise<Paginated<CreateProductDto>> {
     return await paginate(query, this.productRepository, {
       relations: relation && [relation],
       sortableColumns: ['id', 'createdAt', 'updatedAt', 'price', 'title'],
-      searchableColumns: ['title', 'price', 'description'],
+      searchableColumns: ['title', 'price', 'description', 'production_year', 'base', 'technique'],
+      filterableColumns: {
+        title: [FilterOperator.IN, FilterOperator.EQ],
+        production_year: [FilterOperator.IN, FilterOperator.EQ],
+        technique: [FilterOperator.IN, FilterOperator.EQ],
+        base: [FilterOperator.IN, FilterOperator.EQ],
+        price: [FilterOperator.IN, FilterOperator.GTE, FilterOperator.LTE, FilterOperator.BTW],
+        isAvailable: [FilterOperator.EQ, FilterOperator.IN]
+      },
       defaultSortBy: [['createdAt', 'DESC']],
-      where: { isAvailable: true },
+      where: !availability && { isAvailable: true },
       defaultLimit: 5,
     })
   }

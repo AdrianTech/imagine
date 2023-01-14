@@ -1,6 +1,10 @@
 <template>
   <form class="my-3">
-    <select class="p-2" v-model="selected" @change="changeLimit">
+    <select
+      class="p-2 lg:text-lg border border-slate-500 rounded"
+      v-model="selected"
+      @change="changeLimit"
+    >
       <option value="5">Wyświetla 5</option>
       <option value="1">Wyświetl 1</option>
       <option value="10">Wyświetl 10</option>

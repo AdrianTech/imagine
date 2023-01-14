@@ -1,14 +1,7 @@
 <template>
   <div class="overflow-x-auto relative sm:rounded-lg my-5">
-    <table class="w-full text-sm text-left text-gray-900 dark:text-gray-900">
-      <thead
-        class="
-          text-xs text-gray-100
-          uppercase
-          bg-gray-50
-          dark:bg-blue-800 dark:text-gray-100
-        "
-      >
+    <table class="w-full text-sm text-left text-gray-900">
+      <thead class="text-xs text-gray-100 uppercase bg-blue-800 lg:text-[14px]">
         <tr>
           <th
             scope="col"
@@ -39,19 +32,27 @@
         <tr
           v-for="item in props.data"
           :key="item.id"
-          class="bg-white border-b border-b-[#6073ed] dark:bg-slate-100"
+          class="
+            bg-white
+            border-b border-b-[#6073ed]
+            dark:bg-slate-100
+            lg:text-[16px]
+          "
         >
           <td
             class="py-4 px-6"
             v-for="property in props.properties"
             :key="property"
           >
-            {{ item[property] || "Nie" }}
+            <span v-if="typeof item[property] === 'boolean'">
+              {{ item[property] ? "Tak" : "Nie" }}
+            </span>
+            <span v-else>{{ item[property] }}</span>
           </td>
           <td class="py-4 px-6 text-left">
             <button
               @click="props.action('edit', item.id)"
-              class="font-medium text-blue-600 dark:text-blue-500"
+              class="font-medium text-blue-600"
             >
               Edycja
             </button>
@@ -88,6 +89,3 @@ const props = defineProps<{
   properties: string[];
 }>();
 </script>
-
-<style lang="scss" scoped>
-</style>
