@@ -14,7 +14,8 @@ export class ProductsManageService {
 
     create(createProductDto: CreateProductDto, files: Array<Express.Multer.File>) {
         createProductDto.gallery = this.uploadedFile.processFile({ files: files, fileDest: '/uploads/' });
-        createProductDto.isAvailable = Boolean(createProductDto.isAvailable);
+        createProductDto.isAvailable && (createProductDto.isAvailable = createProductDto.isAvailable === 'true');
+
         const product: Product = this.productRepository.create(createProductDto);
         return this.productRepository.save(product);
     }

@@ -26,7 +26,7 @@ export class SerializeInterceptor implements NestInterceptor {
                  * ! When using pagination, response is a Pagination object. Need a check whether data propety exist in reponse object
                  */
 
-                return plainToInstance(this.dto, response.data ? response.data : response, {
+                return plainToInstance(this.dto, response.data ? response : response, {
                     excludeExtraneousValues: true,
                     /* enableImplicitConversion: true ENABLE RELATIONS */
                     enableImplicitConversion: true

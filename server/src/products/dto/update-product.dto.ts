@@ -4,7 +4,7 @@ import { CreateProductDto } from './create-product.dto';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
     @IsOptional()
-    removeImages?: string[];
+    removeImages?: string;
 
     @IsOptional()
     files?: Express.Multer.File[];

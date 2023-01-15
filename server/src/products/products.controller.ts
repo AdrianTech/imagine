@@ -25,13 +25,6 @@ export class ProductsController {
   public async findOne(@Param('id') id: string) {
     return await this.productsService.findOne(+id);
   }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Roles(ROLES.Moderator, ROLES.Admin)
-  // @Patch(':id')
-  // public update(@Body() updateProductDto: UpdateProductDto, @Param('id', ParseIntPipe) id: number) {
-  //   return this.productsService.update(id, updateProductDto);
-  // }
   @UseGuards(JwtAuthGuard)
   @Roles(ROLES.Moderator, ROLES.Admin)
   @Patch(':id')

@@ -9,6 +9,7 @@ import { ProductsManageService } from './products-manage.service';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { ProductsService } from '../../products/products.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { PaginatedClass } from 'src/products/dto/response-dto';
 
 @Controller('admin/products')
 @UseGuards(JwtAuthGuard)
@@ -19,14 +20,16 @@ export class ProductsManageController {
   @Post()
   @UseInterceptors(FilesInterceptor('files', 5))
   public create(@Body() createProductDto: any, @UploadedFiles() files: Array<Express.Multer.File>) {
+
     return this.productsService.create(createProductDto, files);
   }
 
   @Get()
   @Roles(ROLES.Moderator, ROLES.Admin)
-  // @Serialize(CreateProductDto)
+  @Serialize(PaginatedClass)
   public async findAll(@Paginate() query: PaginateQuery): Promise<Paginated<CreateProductDto>> {
-    return await this.publicProductsService.findAll(query, 'user', true);
+    const products = await this.publicProductsService.findAll(query, 'user', true);
+    return products
   }
 
   @Roles(ROLES.Moderator, ROLES.Admin)

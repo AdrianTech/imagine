@@ -2,19 +2,11 @@
   <Section>
     <div class="products">
       <select-items
+        v-if="store.products.length"
         :func="store.getProducts"
         clientPageName="products"
         serverPageName="products"
       />
-      <!-- <form v-if="store.metas.meta.totalItems">
-        <select @change="changeLimit">
-          <option value="5">Wyświetla 5</option>
-          <option value="1">Wyświetl 1</option>
-          <option value="10">Wyświetl 10</option>
-          <option value="20">Wyświetl 20</option>
-          <option value="50">Wyświetl 50</option>
-        </select>
-      </form> -->
       <ul class="grid grid-cols-1 md:grid-cols-3">
         <li v-for="product in store.products" :key="product.id">
           <Product :product="product" />
@@ -23,7 +15,7 @@
       <Paginate
         v-if="store.metas.meta.totalItems"
         :metas="store.metas"
-        :name="'products'"
+        name="products"
         :getFunc="store.getProducts"
       />
     </div>
@@ -38,8 +30,12 @@ import { useRoute, useRouter } from "vue-router";
 import Paginate from "../pagination/Paginate.vue";
 import config from "@/resusables/config";
 import SelectItems from "@/components/commons/SelectItems.vue";
+import { computed, watch } from "@vue/runtime-core";
+import { useAdminStore } from "@/stores/admin";
 const store = useProductsStore();
+const adminStore = useAdminStore();
 const { page, limit, sortBy } = useRoute().query;
+
 if (!store.products.length && store.products.length !== +limit)
   store.getProducts({
     path: `${config.nestApiPath}/products?page=${page}&limit=${limit}&sortBy=${sortBy}`,

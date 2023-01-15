@@ -3,7 +3,7 @@
     <h2 class="ml-2 text-xl md:text-2xl mb-3 uppercase">
       {{ action ? `Edytuj obraz: ${product?.title}` : `Dodaj nowy obraz` }}
     </h2>
-    <FormKit type="form" @submit="submit" autocomplete="off">
+    <FormKit type="form" @submit="submit" autocomplete="off" id="formID">
       <FormKit
         type="text"
         label="Nazwa obrazu"
@@ -159,7 +159,6 @@
         Powrót
       </button-back>
     </div>
-    <message />
   </div>
 </template>
 
@@ -168,12 +167,12 @@ import config from "@/resusables/config";
 import { useAdminStore } from "@/stores/admin";
 import { PropType, reactive, ref, toRefs } from "vue";
 import ButtonBack from "@/resusables/wrappers/ButtonBack.vue";
-import Message from "@/components/commons/Message.vue";
 import Images from "./Images.partial.vue";
 import { useEventStore } from "@/stores/event";
 import { IProduct } from "@/interfaces/product";
 import { useAuthStore } from "@/stores/auth";
 import PromotionForm from "./Promotion.partial.vue";
+import { reset } from "@formkit/core";
 
 const props = defineProps<{
   settings: {
@@ -201,7 +200,7 @@ const showImagesEditor = (name: "addImages" | "deleteImages") => {
   imagesHandle[name] = !imagesHandle[name];
 };
 
-const product: IProduct | undefined = store.products.find(
+const product: IProduct | undefined = store.products?.find(
   (elem: IProduct) => elem.id === productID.value
 );
 
@@ -230,8 +229,6 @@ const submit = async (data: any) => {
     return `${config.nestApiPath}/admin/products`;
   };
   const methodChoice = action.value ? "patch" : "post";
-
-  // if (!action.value) body = formDataHandle(data);
   body = formDataHandle(data);
 
   const result = await store.createOrUpdate(
@@ -249,9 +246,10 @@ const submit = async (data: any) => {
     "products",
     action.value && productID.value
   );
-  if (result)
+  if (result) {
+    reset("formID");
     eventStore.eventMessageHelper("Produkt został pomyślnie zaktualizowany");
-  else {
+  } else {
     eventStore.eventMessageHelper("Wystąpił błąd. Spróbuj ponownie", true);
   }
 };

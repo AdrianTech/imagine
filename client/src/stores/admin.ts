@@ -60,8 +60,9 @@ export const useAdminStore = defineStore('admin', {
                 else this[dataName].push(res.data);
                 return true
             } catch (error: any) {
+                const { message } = error.response.data;
                 const eventStore = useEventStore();
-                eventStore.eventMessageHelper(error.data.message)
+                eventStore.eventMessageHelper(message)
                 return false
             }
 

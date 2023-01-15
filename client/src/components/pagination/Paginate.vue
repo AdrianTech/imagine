@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="props.metas.meta.totalPages !== 1"
+    v-if="props.metas.meta?.totalPages > 1"
     class="
       px-0
       sm:px-4
@@ -18,8 +18,8 @@
       <i class="fa-solid fa-arrow-right"></i>
     </button>
     <span class="md:mx-2 text-lg"
-      >Strona: {{ props.metas.meta.currentPage }} z
-      {{ props.metas.meta.totalPages }}</span
+      >Strona: {{ props.metas.meta?.currentPage }} z
+      {{ props.metas.meta?.totalPages }}</span
     >
     <button class="font-bold text-xl" @click="previousPage">
       <i class="fa-solid fa-arrow-left"></i>

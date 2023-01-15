@@ -4,7 +4,7 @@
       <select-items
         :func="store.getProducts"
         clientPageName="produkty"
-        serverPageName="admin/products"
+        serverPageName="products"
       />
       <button :class="[primaryButton]" @click="dialog(true, 'filters')">
         Filtruj

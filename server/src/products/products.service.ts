@@ -6,7 +6,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { PaginateQuery, paginate, Paginated, FilterOperator } from 'nestjs-paginate';
-import Helpers from 'src/shared/classes/Helpers';
 
 @Injectable()
 export class ProductsService {
@@ -14,6 +13,7 @@ export class ProductsService {
   private readonly uploadedFile: UploadFiles = new UploadFiles()
 
   async findAll(query: PaginateQuery, relation?: any, availability: boolean = false): Promise<Paginated<CreateProductDto>> {
+    const setAvailability = !availability ? { isAvailable: true } : {};
     return await paginate(query, this.productRepository, {
       relations: relation && [relation],
       sortableColumns: ['id', 'createdAt', 'updatedAt', 'price', 'title'],
@@ -27,7 +27,7 @@ export class ProductsService {
         isAvailable: [FilterOperator.EQ, FilterOperator.IN]
       },
       defaultSortBy: [['createdAt', 'DESC']],
-      where: !availability && { isAvailable: true },
+      where: setAvailability,
       defaultLimit: 5,
     })
   }
@@ -39,20 +39,30 @@ export class ProductsService {
   async update(id: number, body: Partial<UpdateProductDto>, files: Array<Express.Multer.File>) {
     const product = await this.productRepository.findOneBy({ id })
 
-    if (files.length) {
-      if (product.gallery.length + files.length > 5) throw new BadRequestException('Obraz może mieć maksymalnie 5 zdjęć');
-      body.gallery = this.uploadedFile.processFile({ files: files, fileDest: '/uploads/' });
-    }
-
     if (body.removeImages) {
-      if (product.gallery.length - body.removeImages.length < 1) throw new BadRequestException('Obraz powinien mieć co najmniej jedno zdjęcie');
-      body.gallery = product.gallery.filter((item: string) => !body.removeImages.includes(item))
-      body.removeImages.forEach((img: string) => this.uploadedFile.unlinkFile({ files: product.gallery, filePath: img, fileDest: '/uploads/' }))
+      const deleteImgsArray = body.removeImages.split(',');
+      if (product.gallery.length - deleteImgsArray.length < 1) throw new BadRequestException('Obraz powinien mieć co najmniej jedno zdjęcie');
+      product.gallery = this.removeImagesHandle(product.gallery, deleteImgsArray);
+      // body.gallery = product.gallery.filter((item: string) => !body.removeImages.includes(item))
+      // deleteImgsArray.forEach((img: string) => this.uploadedFile.unlinkFile({ files: product.gallery, filePath: img, fileDest: '/uploads/' }))
       delete body.removeImages;
     }
 
-    body.isAvailable && (body.isAvailable = Boolean(body.isAvailable));
+    if (files.length) {
+      if (product.gallery.length + files.length > 5) throw new BadRequestException('Obraz może mieć maksymalnie 5 zdjęć');
+      body.gallery = [...this.uploadedFile.processFile({ files: files, fileDest: '/uploads/' }), ...product.gallery];
+
+    }
+
+    body.isAvailable && (body.isAvailable = body.isAvailable === 'true');
     await this.productRepository.update(id, body);
     return await this.productRepository.findOneBy({ id });
+  }
+
+  private removeImagesHandle(gallery: string[], images: string[]): string[] {
+    images.forEach((image: string) => {
+      this.uploadedFile.unlinkFile({ files: images, filePath: image, fileDest: '/uploads/' })
+    })
+    return gallery.filter((img: string) => !images.includes(img))
   }
 }

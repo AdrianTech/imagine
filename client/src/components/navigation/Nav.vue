@@ -7,7 +7,7 @@
       px-4
       lg:px-6
       py-2.5
-      dark:bg-gray-800
+      bg-gray-800
       absolute
       w-full
       top-0
@@ -24,7 +24,6 @@
       "
     >
       <a href="#" class="flex items-center">
-        <!-- <img src="" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" /> -->
         <span
           class="
             self-center
