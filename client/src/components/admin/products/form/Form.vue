@@ -248,7 +248,7 @@ const submit = async (data: any) => {
   );
   if (result) {
     reset("formID");
-    eventStore.eventMessageHelper("Produkt został pomyślnie zaktualizowany");
+    eventStore.eventMessageHelper("Produkt został pomyślnie dodany");
   } else {
     eventStore.eventMessageHelper("Wystąpił błąd. Spróbuj ponownie", true);
   }

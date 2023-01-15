@@ -65,10 +65,7 @@ export const useAdminStore = defineStore('admin', {
                 eventStore.eventMessageHelper(message)
                 return false
             }
-
-
         },
-
         async updateOrder(setup: Setup) {
             try {
                 const { data }: HttpRequester = await httpRequester(setup);
