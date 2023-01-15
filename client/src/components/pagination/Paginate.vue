@@ -40,6 +40,10 @@ const props = defineProps({
   getFunc: { type: Function, required: true },
 });
 const router = useRouter();
+const setPath =
+  config.nestApiPath === "localhost:8080"
+    ? "http://localhost:3000"
+    : "http://sanden.usermd.net";
 // const curr = (currentPage + 1).toString();
 // const test = next?.search(/[?]/);
 // const query  = next?.slice(test)
@@ -62,10 +66,7 @@ const lastPage = () => {
 
 const pageHandler = (targetLink: string) => {
   if (!targetLink) return;
-  const changePath = targetLink?.replace(
-    `${config.nestApiPath}/${props.name}`,
-    ""
-  );
+  const changePath = targetLink?.replace(`${setPath}/${props.name}`, "");
   props.getFunc({ path: targetLink, method: "get", withCredentials: true });
   router.push(changePath);
 };
