@@ -1,13 +1,18 @@
 <template>
   <Section>
     <div class="products">
-      <select-items
-        v-if="store.products.length"
-        :func="store.getProducts"
-        clientPageName="products"
-        serverPageName="products"
-      />
-      <ul class="grid grid-cols-1 md:grid-cols-3">
+      <div class="flex gap-x-5 ml-6 my-2">
+        <select-items
+          v-if="store.products.length"
+          :func="store.getProducts"
+          clientPageName="products"
+          serverPageName="products"
+        />
+        <button :class="[primaryButton]" @click="dialog(true, 'filters')">
+          Filtruj
+        </button>
+      </div>
+      <ul class="grid grid-cols-1 md:grid-cols-3 border-t-2">
         <li v-for="product in store.products" :key="product.id">
           <Product :product="product" />
         </li>
@@ -19,6 +24,11 @@
         :getFunc="store.getProducts"
       />
     </div>
+    <Filter
+      clientParams="products"
+      serverParams="products"
+      :func="store.getProducts"
+    />
   </Section>
 </template>
 
@@ -31,7 +41,10 @@ import Paginate from "../pagination/Paginate.vue";
 import config from "@/resusables/config";
 import SelectItems from "@/components/commons/SelectItems.vue";
 import { computed, watch } from "@vue/runtime-core";
+import Filter from "@/components/commons/Filter/Filter.vue";
+import { dialog } from "@/resusables/methods";
 import { useAdminStore } from "@/stores/admin";
+import { primaryButton } from "@/resusables/css-classes";
 const store = useProductsStore();
 const adminStore = useAdminStore();
 const { page, limit, sortBy } = useRoute().query;

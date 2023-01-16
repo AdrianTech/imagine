@@ -1,7 +1,7 @@
 <template>
   <div class="my-2" :class="[setClassImageBox()]">
     <div :class="props.picSize" @click="() => showImg(1, props?.images[0])">
-      <img :src="`${config.nestApiPath}/uploads/` + props?.images[0]" />
+      <img :src="`/uploads/` + props?.images[0]" />
     </div>
     <div v-if="props.picSize === 'normal'" class="flex">
       <div
@@ -10,7 +10,7 @@
         :key="index"
         @click="() => showImg(index, src)"
       >
-        <img :src="`${config.nestApiPath}/uploads/` + src" />
+        <img :src="`/uploads/` + src" />
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@ const indexRef = ref(0);
 const imgsRef = ref([]) as any;
 
 const showImg = (index: number, src: string) => {
-  imgsRef.value = `${config.nestApiPath}/uploads/${src}`;
+  imgsRef.value = `/uploads/${src}`;
   visibleRef.value = true;
 };
 

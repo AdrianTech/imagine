@@ -1,6 +1,11 @@
 <template>
   <Modal classname="filters">
-    <FormKit type="form" @submit="setFilter" submit-label="Filtruj">
+    <FormKit
+      type="form"
+      @submit="setFilter"
+      submit-label="Filtruj"
+      class="text-center"
+    >
       <FormKit
         type="text"
         name="production_year"
@@ -55,8 +60,13 @@
         name="rangePriceTo"
         help="Select your volume level."
       />
+      <button
+        class="text-red-600 text-lg mb-4 ml-2"
+        @click.prevent="dialog(false, 'filters')"
+      >
+        Anuluj
+      </button>
     </FormKit>
-    <button @click="dialog(false, 'filters')">Anuluj</button>
   </Modal>
 </template>
 
@@ -64,14 +74,17 @@
 import Modal from "@/components/commons/Modal.vue";
 import config from "@/resusables/config";
 import { dialog } from "@/resusables/methods";
-import { useAdminStore } from "@/stores/admin";
 import { reactive } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-// import { filterProductScheme } from "@/components/commons/Forms/Schemes";
+
+const props = defineProps<{
+  clientParams: String;
+  serverParams: String;
+  func: Function;
+}>();
 
 const router = useRouter();
 const query = useRoute().query;
-const store = useAdminStore();
 
 const filterData = reactive({
   rangePriceFrom: 0,
@@ -107,9 +120,9 @@ const setFilter = async (data: any) => {
     link = `${link}&filter.${key}=$in:${data[key]}`;
   });
 
-  const fullPath = `${config.nestApiPath}/admin/products${link}`;
-  router.replace(`produkty${link}`);
-  await store.getAll(
+  const fullPath = `/${props.serverParams}${link}`;
+  router.replace(`${props.clientParams}${link}`);
+  await props.func(
     { path: fullPath, method: "get", withCredentials: true },
     "products"
   );

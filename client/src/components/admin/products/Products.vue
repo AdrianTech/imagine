@@ -31,7 +31,11 @@
     </button>
   </div>
   <Form :settings="settings" v-else :key="store.products" />
-  <Filter />
+  <Filter
+    clientParams="produkty"
+    serverParams="admin/products"
+    :func="store.getAll"
+  />
 </template>
 
 <script lang="ts" setup>
