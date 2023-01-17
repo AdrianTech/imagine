@@ -59,12 +59,6 @@ const { page, limit, sortBy } = useRoute().query;
 const { products } = storeToRefs(store);
 const { user } = storeToRefs(useAuthStore());
 
-// const checkRole: boolean =
-//   user.value?.role === ROLES.ADMIN || user.value?.role === ROLES.MODERATOR
-//     ? true
-//     : false;
-// const setFunction = checkRole ? adminStore.getAll : store.getProducts;
-
 if (!products.value.length) {
   store.getProducts({
     path: `/products?page=${page}&limit=${limit}&sortBy=${sortBy}`,

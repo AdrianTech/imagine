@@ -2,8 +2,8 @@
   <nav
     v-if="!$route.meta.access"
     class="
+      border-b border-white
       font-primary
-      border-gray-200
       px-4
       lg:px-6
       py-2.5
@@ -25,13 +25,7 @@
     >
       <router-link :to="{ name: 'home' }">
         <span
-          class="
-            self-center
-            text-xl
-            font-semibold
-            whitespace-nowrap
-            dark:text-white
-          "
+          class="self-center text-xl font-semibold whitespace-nowrap text-white"
           >Imagine</span
         >
       </router-link>
@@ -133,7 +127,6 @@
                 rounded
                 bg-blue-700
                 lg:bg-transparent lg:text-blue-700 lg:p-0
-                dark:text-white
               "
               aria-current="page"
               >Home</router-link
@@ -193,4 +186,7 @@ const visibleClass =
 </script>
 
 <style lang="scss" scoped>
+a {
+  color: white;
+}
 </style>

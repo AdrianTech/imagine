@@ -1,5 +1,16 @@
 <template>
-  <div class="product p-2 relative">
+  <div
+    class="
+      product
+      px-2
+      py-4
+      relative
+      flex flex-col
+      items-center
+      border-b-2 border-b-slate-300
+      md:border-b-0
+    "
+  >
     <router-link
       class="text-lg"
       :to="{ name: 'productDetails', params: { id: props.product.id } }"

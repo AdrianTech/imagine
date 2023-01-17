@@ -97,7 +97,7 @@ const filterData = reactive({
 });
 
 const setFilter = async (data: any) => {
-  let queryBilder = `?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`;
+  let queryBilder: string = `?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`;
   let range = false;
 
   if (data["rangePriceFrom"] && data["rangePriceTo"]) {

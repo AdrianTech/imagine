@@ -1,7 +1,16 @@
 <template>
   <footer
     v-if="!$route.meta.access"
-    class="footer w-full bg-gray-800 py-3 text-center fixed bottom-0"
+    class="
+      footer
+      w-full
+      bg-gray-800
+      py-3
+      text-center
+      fixed
+      bottom-0
+      border-t border-white
+    "
   >
     <p class="text-white text-lg">Created by Adriantech.eu</p>
     <button

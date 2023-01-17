@@ -38,22 +38,21 @@ export class ProductsService {
 
   async update(id: number, body: Partial<UpdateProductDto>, files: Array<Express.Multer.File>) {
     const product = await this.productRepository.findOneBy({ id })
+    let updatedGallery = [];
 
     if (body.removeImages) {
       const deleteImgsArray = body.removeImages.split(',');
       if (product.gallery.length - deleteImgsArray.length < 1) throw new BadRequestException('Obraz powinien mieć co najmniej jedno zdjęcie');
       product.gallery = this.removeImagesHandle(product.gallery, deleteImgsArray);
-      // body.gallery = product.gallery.filter((item: string) => !body.removeImages.includes(item))
-      // deleteImgsArray.forEach((img: string) => this.uploadedFile.unlinkFile({ files: product.gallery, filePath: img, fileDest: '/uploads/' }))
       delete body.removeImages;
     }
 
     if (files.length) {
       if (product.gallery.length + files.length > 5) throw new BadRequestException('Obraz może mieć maksymalnie 5 zdjęć');
-      body.gallery = [...this.uploadedFile.processFile({ files: files, fileDest: '/uploads/' }), ...product.gallery];
-
+      updatedGallery = this.uploadedFile.processFile({ files: files, fileDest: '/uploads/' })
     }
 
+    body.gallery = [...updatedGallery, ...product.gallery];
     body.isAvailable && (body.isAvailable = body.isAvailable === 'true');
     await this.productRepository.update(id, body);
     return await this.productRepository.findOneBy({ id });
