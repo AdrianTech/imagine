@@ -39,7 +39,7 @@
         >
           Cena: <span class="font-bold">{{ data?.price }}</span> zł
         </div>
-        <div class="details flex flex-col mt-6 sm:mt-0">
+        <div class="details flex flex-col mt-6 sm:mt-0 ml-5">
           <div class="px-2 mb-2 text-lg">
             Wymiary:
             <p class="item font-bold text-orange-600">
@@ -67,6 +67,13 @@
             Podłoże:
             <p class="item font-bold text-orange-600">{{ data?.base }}</p>
           </div>
+          <button
+            v-if="user.role === 'Admin'"
+            class=""
+            @click="dialog(true, 'moreDetails')"
+          >
+            Pokaż więcej szczegółów
+          </button>
           <div class="buy">
             <button
               @click="addToCart"
@@ -94,32 +101,30 @@
         {{ data?.description }}
       </p>
     </div>
-    <!-- <pulse-loader
-      class="absolute top-[50%] left-[50%] h-screen"
-      :loading="event.loading"
-      :color="'red'"
-      :size="'80px'"
-    ></pulse-loader> -->
+    <MoreDetails :product="data" />
   </Section>
 </template>
 
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { useProductsStore } from "@/stores/products";
-import { checkIfExist } from "@/resusables/methods";
-// import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import { checkIfExist, dialog } from "@/resusables/methods";
 import ImageBox from "./ImageBox.vue";
 import Section from "../commons/Section.vue";
 import { ref } from "@vue/reactivity";
+import MoreDetails from "./MoreDetails.vue";
 import { useCartStore } from "@/stores/cart";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 const cartStore = useCartStore();
 
 export default {
-  components: { ImageBox, Section },
+  components: { ImageBox, Section, MoreDetails },
 
   async setup() {
     const data = ref({});
     const exist = ref(false);
+    const { user } = storeToRefs(useAuthStore());
 
     const {
       params: { id },
@@ -135,7 +140,7 @@ export default {
       exist.value = checkIfExist(cartStore.cart, +id);
     };
 
-    return { data, event, cartStore, exist, addToCart };
+    return { data, event, cartStore, exist, addToCart, user, dialog };
   },
 };
 </script>

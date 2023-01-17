@@ -17,6 +17,7 @@ export class ProductsController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   public async findAll(@Paginate() query: PaginateQuery): Promise<Paginated<CreateProductDto>> {
+    console.log(query);
     return await this.productsService.findAll(query);
   }
 

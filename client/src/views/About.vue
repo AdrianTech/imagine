@@ -1,6 +1,5 @@
 <template>
   <Section>
-    <section-title>Jestem Victoria...</section-title>
     <div
       class="
         w-full
@@ -10,6 +9,7 @@
         dark:text-slate-100
         py-4
         px-4
+        mt-2
         md:px-12
         rounded-md
       "
@@ -30,6 +30,7 @@
         alt=""
       />
       <p>
+        <h3 class="font-bold text-center my-2 text-xl">{{setValue('Jestem Victoria...')}}</h3>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
         consequuntur veritatis corporis, harum iste aperiam magnam nulla velit
         quod deleniti voluptatum reprehenderit impedit est error ratione, eaque
@@ -54,13 +55,13 @@
           :class="[primaryButton]"
           @click="$router.push({ name: 'products' })"
         >
-          Zobacz moje obrazy
+          {{setValue('Zobacz moje obrazy')}}
         </button>
         <button
           :class="[primaryButton]"
           @click="$router.push({ name: 'contact' })"
         >
-          Skontaktuj się ze mną
+          {{setValue('Skontaktuj się ze mną')}}
         </button>
       </div>
     </div>
@@ -70,7 +71,9 @@
 <script lang="ts" setup>
 import Section from "@/components/commons/Section.vue";
 import { primaryButton } from "@/resusables/css-classes";
+import { useTranslationStore } from "@/stores/translation";
 import SectionTitle from "../resusables/wrappers/SectionTitle.vue";
+const { setValue } = useTranslationStore();
 </script>
 
 <style lang="scss" scoped>

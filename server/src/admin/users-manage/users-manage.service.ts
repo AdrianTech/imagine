@@ -11,7 +11,6 @@ const saltOrRounds = 10;
 @Injectable()
 export class UsersManageService {
     constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
-
     async create(createUserDto: CreateUserDto): Promise<User> {
         try {
             const user = this.userRepository.create(createUserDto);

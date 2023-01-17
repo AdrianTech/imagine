@@ -66,7 +66,7 @@ Start the backend server
 ## Installation
 
 After running the server, migration will be making immediately. Next step is to create a new user account (with 'Admin' role) in your postgres database. Notice, password should be hashed
-by Bcrypt [bcrypt-generator](https://bcrypt-generator.com). After this step you should be able to log in.
+by Bcrypt [bcrypt-generator](https://bcrypt-generator.com). After this step you should be able to log in via /login route.
 
     
 ## Environment Variables

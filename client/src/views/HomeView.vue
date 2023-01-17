@@ -18,7 +18,7 @@
       </h1>
       <div class="w-[4px] bg-red-700 mx-3"></div>
       <h3 class="text-yellow-300 font-extrabold text-xl md:text-3xl">
-        Malarstwo, Rysunek i Sztuka
+        {{ setValue("Malarstwo, Rysunek i Sztuka") }}
       </h3>
       <button
         class="
@@ -50,6 +50,8 @@
 import SectionVue from "@/components/commons/Section.vue";
 import { useAuthStore } from "@/stores/auth";
 import { useEventStore } from "@/stores/event";
+import { useTranslationStore } from "@/stores/translation";
+const { setValue } = useTranslationStore();
 const store = useAuthStore();
 const event = useEventStore();
 </script>

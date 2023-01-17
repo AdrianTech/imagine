@@ -97,18 +97,18 @@ const filterData = reactive({
 });
 
 const setFilter = async (data: any) => {
-  let link = `?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`;
+  let queryBilder = `?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`;
   let range = false;
 
   if (data["rangePriceFrom"] && data["rangePriceTo"]) {
     range = true;
-    link = `${link}&filter.price=$btw:${data["rangePriceFrom"]}, ${data["rangePriceTo"]}`;
+    queryBilder = `${queryBilder}&filter.price=$btw:${data["rangePriceFrom"]}, ${data["rangePriceTo"]}`;
   }
 
   if (!range && filterData["rangePriceFrom"]) {
-    link = `${link}&filter.price=$gte:${filterData["rangePriceFrom"]}`;
+    queryBilder = `${queryBilder}&filter.price=$gte:${filterData["rangePriceFrom"]}`;
   } else if (!range && filterData["rangePriceTo"]) {
-    link = `${link}&filter.price=$lte:${filterData["rangePriceTo"]}`;
+    queryBilder = `${queryBilder}&filter.price=$lte:${filterData["rangePriceTo"]}`;
   }
 
   Object.keys(data).forEach((key: any) => {
@@ -117,11 +117,11 @@ const setFilter = async (data: any) => {
   });
 
   Object.keys(data).forEach((key: any) => {
-    link = `${link}&filter.${key}=$in:${data[key]}`;
+    queryBilder = `${queryBilder}&filter.${key}=$in:${data[key]}`;
   });
 
-  const fullPath = `/${props.serverParams}${link}`;
-  router.replace(`${props.clientParams}${link}`);
+  const fullPath = `/${props.serverParams}${queryBilder}`;
+  router.replace(`${props.clientParams}${queryBilder}`);
   await props.func(
     { path: fullPath, method: "get", withCredentials: true },
     "products"

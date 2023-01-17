@@ -31,7 +31,6 @@ import { useAdminStore } from "@/stores/admin";
 import Table from "../../commons/Table.vue";
 import Form from "./UsersForm.vue";
 import SelectItems from "@/components/commons/SelectItems.vue";
-// import Message from "@/components/commons/Message.vue";
 import { Ref, ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import { primaryButton } from "@/resusables/css-classes";
@@ -40,16 +39,14 @@ const showForm: Ref<boolean> = ref<boolean>(false);
 const action: Ref<boolean> = ref<boolean>(false);
 const userID = ref(null);
 const store = useAdminStore();
-
-if (!store.users.length)
-  store.getAll(
-    {
-      path: `${config.nestApiPath}/users`,
-      method: "get",
-      withCredentials: true,
-    },
-    "users"
-  );
+store.getAll(
+  {
+    path: `${config.nestApiPath}/users`,
+    method: "get",
+    withCredentials: true,
+  },
+  "users"
+);
 
 const formHandle = (state?: boolean) => {
   showForm.value = !showForm.value;

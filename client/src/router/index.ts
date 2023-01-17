@@ -1,14 +1,12 @@
-import { createRouter, createWebHistory, onBeforeRouteUpdate, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ProductView from '../views/ProductView.vue'
 import NotFound from '../views/NotFound.vue';
-import Admin from '../views/Admin/Main.vue'
 import Login from '../views/Login.vue'
 import Cart from '../views/Cart.vue';
 import { loggedGuard } from './guards/logged.guard';
 import Transaction from '../components/products/Transaction.vue';
 import { admin } from './admin'
-import { useAuthStore } from '@/stores/auth';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -39,10 +37,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     component: Login,
-    // beforeEnter: (to, from, next) => {
-    //   const store = useAuthStore()
-    //   // if (store.isLogged) next();
-    // }
   },
   {
     path: '/zakup',
@@ -62,16 +56,10 @@ const routes: Array<RouteRecordRaw> = [
     name: 'cart',
     component: Cart
   },
-  // {
-  //   path: '/admin',
-  //   name: "admin",
-  //   component: Admin,
-  //   beforeEnter: [routeGuard]
-  // },
   {
     path: '/profile',
     name: "profile",
-    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admin/Profile.vue'),
     beforeEnter: [loggedGuard]
   },
   {

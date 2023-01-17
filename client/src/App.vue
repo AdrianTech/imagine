@@ -14,7 +14,9 @@ import Footer from "./components/Footer.vue";
 import Main from "@/views/Admin/Main.vue";
 import Message from "@/components/commons/Message.vue";
 import { useAuthStore } from "./stores/auth";
+import { useTranslationStore } from "@/stores/translation";
 const store = useAuthStore();
+useTranslationStore().setLang();
 
 if (store.getRemember()) store.rememberLogin();
 </script>

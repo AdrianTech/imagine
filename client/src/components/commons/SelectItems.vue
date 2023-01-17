@@ -5,19 +5,21 @@
       v-model="selected"
       @change="changeLimit"
     >
-      <option value="5">Wyświetla 5</option>
-      <option value="1">Wyświetl 1</option>
-      <option value="10">Wyświetl 10</option>
-      <option value="20">Wyświetl 20</option>
-      <option value="50">Wyświetl 50</option>
+      <option value="5">{{ setValue("Wyświetl") }} 5</option>
+      <option value="1">{{ setValue("Wyświetl") }} 1</option>
+      <option value="10">{{ setValue("Wyświetl") }} 10</option>
+      <option value="20">{{ setValue("Wyświetl") }} 20</option>
+      <option value="50">{{ setValue("Wyświetl") }} 50</option>
     </select>
   </form>
 </template>
 
 <script lang="ts" setup>
 import config from "@/resusables/config";
+import { useTranslationStore } from "@/stores/translation";
 import { ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
+const { setValue } = useTranslationStore();
 
 const router = useRouter();
 const query = useRoute().query;
@@ -30,12 +32,15 @@ const props = defineProps({
 });
 
 const changeLimit = ({ target: { value } }: { target: { value: string } }) => {
-  const link = `?page=${query.page}&limit=${value}&sortBy=${query.sortBy}`;
-  const fullPath = `${config.nestApiPath}/${props.serverPageName}${link}`;
-  router.replace(`${props.clientPageName}${link}`);
-  props.func({ path: fullPath, method: "get", withCredentials: true });
+  const url = window.location.href;
+  const newUrl = new URL(url);
+  newUrl.searchParams.set("limit", value);
+  // const link = `?page=${query.page}&limit=${value}&sortBy=${query.sortBy}`;
+  const fullPath = `${config.nestApiPath}/${props.serverPageName}${newUrl.search}`;
+  router.replace(`${props.clientPageName}${newUrl.search}`);
+  props.func(
+    { path: fullPath, method: "get", withCredentials: true },
+    props.serverPageName
+  );
 };
 </script>
-
-<style>
-</style>

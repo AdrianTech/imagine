@@ -3,29 +3,23 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { useEventStore } from "./event";
 import config from '../resusables/config'
+import { IUser } from "@/interfaces/user";
+import { useTranslationStore } from "./translation";
 
 const instance = axios.create({
-    //
     withCredentials: true,
-    // withCredentials: true,
     baseURL: config.nestApiPath,
 })
 
 export const useAuthStore = defineStore('auth', {
     state: (): IAuth => ({
         isLogged: false,
-        user: null,
+        user: {} as IUser,
     }),
     actions: {
-        async users() {
-            try {
-                const res = await axios.get(`${config.nestApiPath}/users`, { withCredentials: true });
-            } catch (err) {
-
-            }
-        },
         async login(email: string, password: string, remember: boolean): Promise<boolean> {
             const event = useEventStore();
+            const { setValue } = useTranslationStore()
             try {
                 const res = await axios.post(`${config.nestApiPath}/users/login`, {
                     password,
@@ -36,10 +30,11 @@ export const useAuthStore = defineStore('auth', {
                 if (remember) this.setRemember();
                 this.isLogged = true;
                 this.user = res.data;
-                event.eventMessageHelper('Logowanie powiodło się')
+                event.eventMessageHelper(setValue('Logowanie powiodło się'));
                 return true;
-            } catch (err) {
-                event.eventMessageHelper('Something went wrong', true)
+            } catch (err: any) {
+                const status: string = err.response.status === 401 ? 'Nieprawidłowe hasło lub email' : 'Coś poszło nie tak';
+                event.eventMessageHelper(setValue(status), true)
                 return false
             }
         },

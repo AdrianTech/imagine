@@ -11,7 +11,7 @@
         text-white
         border
         rounded
-        px-6
+        px-4
         py-1
         hover:bg-white hover:text-red-600
         transition
@@ -28,8 +28,8 @@
             sortBy: 'createdAt:DESC',
           },
         }"
-        >Admin</router-link
-      >
+        ><i class="fa fa-cog text-xl" aria-hidden="true"></i
+      ></router-link>
     </button>
   </footer>
 </template>

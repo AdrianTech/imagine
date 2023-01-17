@@ -13,6 +13,7 @@ import { ResponseUserDto } from './dto/response-user.dto';
 import { cookieConfig } from '../configs/cookie';
 import { HashPasswordPipe } from '../pipes/hash-password.pipe';
 import { CheckUpdateRoleGuard } from '../guards/check-update-role.guard';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('users')
 export class UsersController {
@@ -27,9 +28,9 @@ export class UsersController {
   }
   @UseGuards(JwtAuthGuard)
   @Get()
-  @Serialize(ResponseUserDto)
-  findAll() {
-    return this.usersService.findAll();
+  // @Serialize(ResponseUserDto)
+  findAll(@Paginate() query: PaginateQuery) {
+    return this.usersService.findAll(query);
   }
 
   @UseGuards(JwtAuthGuard)

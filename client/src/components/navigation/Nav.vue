@@ -23,7 +23,7 @@
         max-w-screen-lx
       "
     >
-      <a href="#" class="flex items-center">
+      <router-link :to="{ name: 'home' }">
         <span
           class="
             self-center
@@ -34,16 +34,16 @@
           "
           >Imagine</span
         >
-      </a>
+      </router-link>
       <div class="flex items-center lg:order-2">
         <router-link
           v-if="store.isLogged"
           :to="{ name: 'profile' }"
           class="
             text-white
-            bg-blue-700
-            hover:bg-blue-800
-            focus:ring-4 focus:ring-blue-300
+            bg-slate-600
+            hover:bg-blue-100 hover:text-blue-900
+            focus:ring-4
             font-medium
             rounded-lg
             text-sm
@@ -52,9 +52,7 @@
             py-2
             lg:py-2.5
             mr-2
-            dark:bg-blue-600 dark:hover:bg-blue-700
-            focus:outline-none
-            dark:focus:ring-blue-800
+            focus:outline-none focus:ring-blue-800
           "
           >{{ store.user.username }}</router-link
         >
@@ -63,7 +61,7 @@
           :class="[darkBgButton]"
           @click="store.logout"
         >
-          Logout
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
         </button>
         <button
           data-collapse-toggle="mobile-menu-2"
@@ -142,9 +140,9 @@
             >
           </li>
           <li>
-            <router-link :to="{ name: 'about' }" :class="[achoreNav]"
-              >O mnie</router-link
-            >
+            <router-link :to="{ name: 'about' }" :class="[achoreNav]">{{
+              setValue("O mnie")
+            }}</router-link>
           </li>
           <li>
             <router-link
@@ -157,17 +155,19 @@
                 },
               }"
               :class="[achoreNav]"
-              >Obrazy</router-link
+              >{{ setValue("Obrazy") }}</router-link
             >
           </li>
           <li>
-            <router-link :to="{ name: 'contact' }" :class="[achoreNav]"
-              >Kontakt</router-link
-            >
+            <router-link :to="{ name: 'contact' }" :class="[achoreNav]">{{
+              setValue("Kontakt")
+            }}</router-link>
           </li>
           <li>
             <router-link :to="{ name: 'cart' }" :class="[achoreNav]"
-              >Koszyk ({{ cartStore.cart.length }})</router-link
+              >{{ setValue("Koszyk") }} ({{
+                cartStore.cart.length
+              }})</router-link
             >
           </li>
         </ul>
@@ -180,7 +180,9 @@
 import { achoreNav, darkBgButton } from "@/resusables/css-classes";
 import { useAuthStore } from "@/stores/auth";
 import { useCartStore } from "@/stores/cart";
+import { useTranslationStore } from "@/stores/translation";
 import { ref } from "@vue/reactivity";
+const { setValue } = useTranslationStore();
 
 const store = useAuthStore();
 const cartStore = useCartStore();

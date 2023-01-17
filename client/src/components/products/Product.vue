@@ -38,10 +38,11 @@
 
 <script lang="ts" setup>
 import ImageBox from "./ImageBox.vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { PropType } from "@vue/runtime-core";
 import { IProduct } from "@/interfaces/product";
 import { useCartStore } from "@/stores/cart";
+
 const props = defineProps({
   product: { type: Object as PropType<IProduct>, required: true },
 });

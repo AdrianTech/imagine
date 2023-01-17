@@ -1,7 +1,7 @@
 <template>
   <div class="my-2" :class="[setClassImageBox()]">
     <div :class="props.picSize" @click="() => showImg(1, props?.images[0])">
-      <img :src="`/uploads/` + props?.images[0]" />
+      <img class="w-full" :src="`/uploads/` + props?.images[0]" />
     </div>
     <div v-if="props.picSize === 'normal'" class="flex">
       <div
