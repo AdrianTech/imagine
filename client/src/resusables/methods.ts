@@ -3,6 +3,7 @@
  */
 
 import { Setup } from "@/interfaces/methods";
+import { useEventStore } from "@/stores/event";
 import axios, { AxiosRequestHeaders } from "axios";
 
 /**
@@ -50,4 +51,13 @@ export const httpRequester = async (setup: Setup): Promise<object> => {
         headers: setup.headers as AxiosRequestHeaders,
     })
     return await instance(setup.path, { data: setup.body });
+}
+
+export const handleSubmitData = (data: any): Object | void => {
+    Object.keys(data).forEach((key) => {
+        if (!data[key]) delete data[key];
+    });
+
+    if (!Object.keys(data).length) return false
+    return data;
 }

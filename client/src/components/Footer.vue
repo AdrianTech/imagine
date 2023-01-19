@@ -9,7 +9,7 @@
       text-center
       fixed
       bottom-0
-      border-t border-white
+      border-t border-slate-400
     "
   >
     <p class="text-white text-lg">Created by Adriantech.eu</p>

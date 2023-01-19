@@ -27,7 +27,7 @@ export class ProductsService {
         isAvailable: [FilterOperator.EQ, FilterOperator.IN]
       },
       defaultSortBy: [['createdAt', 'DESC']],
-      // where: setAvailability,
+      where: setAvailability,
       defaultLimit: 5,
     })
   }

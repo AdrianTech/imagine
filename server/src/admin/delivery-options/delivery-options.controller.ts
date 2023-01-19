@@ -16,6 +16,10 @@ export class DeliveryOptionsController {
   findAll() {
     return this.deliveryOptionsService.findAll();
   }
+  @Get('private')
+  findAllAdmin() {
+    return this.deliveryOptionsService.findAllAdmin();
+  }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {

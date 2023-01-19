@@ -40,9 +40,6 @@ export class Order {
     @Column('date', { nullable: true })
     finalizationDate: Date;
 
-    // @Column({ type: "enum", enum: DELIVERY, default: DELIVERY.INPOST })
-    // deliveryOption: DELIVERY;
-
     @Column('float', { default: 0.00 })
     totalPrice: number;
 
@@ -58,6 +55,6 @@ export class Order {
     @Column('jsonb', { nullable: true })
     productsList: OrderProductsDto[];
 
-    @ManyToOne(() => DeliveryOption, delivery => delivery.orders, { eager: true })
+    @ManyToOne(() => DeliveryOption, delivery => delivery.orders, { eager: true, onDelete: "SET NULL" })
     deliver: DeliveryOption
 }

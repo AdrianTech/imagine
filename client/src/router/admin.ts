@@ -3,6 +3,7 @@ import { routeGuard } from "./guards/routeGuard";
 import AdminProducts from "@/views/Admin/AdminProducts.vue";
 import Orders from "@/views/Admin/Orders.vue";
 import Users from "@/views/Admin/Users.vue";
+import Delivery from "@/views/Admin/Delivery.vue";
 import OrderDetails from "@/components/admin/oders/OrderDetails.vue";
 
 
@@ -43,12 +44,12 @@ export const admin: Array<RouteRecordRaw> = [
                 component: Users,
                 // beforeEnter: [routeGuard]
             },
-            // {
-            //     path: 'akcja/:type/:name',
-            //     name: "adminCreateEdit",
-            //     component: CreateEdit,
-            //     beforeEnter: [routeGuard]
-            // },
+            {
+                path: 'delivery',
+                name: "delivery",
+                component: Delivery,
+                beforeEnter: [routeGuard]
+            },
 
         ],
     },

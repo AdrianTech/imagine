@@ -17,6 +17,9 @@ export class DeliveryOptionsService {
   findAll() {
     return this.deliverRepository.find({ where: { active: true } });
   }
+  findAllAdmin() {
+    return this.deliverRepository.find();
+  }
 
   findOne(id: number) {
     return this.deliverRepository.findOneBy({ id });
@@ -26,7 +29,8 @@ export class DeliveryOptionsService {
     const deliverOption: DeliveryOption = await this.deliverRepository.findOneBy({ id });
     if (!deliverOption) throw new NotFoundException();
     Object.assign(deliverOption, updateDeliveryOptionDto);
-    return this.deliverRepository.save(deliverOption);
+    await this.deliverRepository.save(deliverOption);
+    return await this.deliverRepository.findOneBy({ id });
   }
 
   remove(id: number) {

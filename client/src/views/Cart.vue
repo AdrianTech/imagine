@@ -1,6 +1,9 @@
 <template>
   <Section>
-    <ul v-if="store.cart.length" class="w-full sm:w-1/2 mx-auto text-center">
+    <ul
+      v-if="store.cart.length"
+      class="w-full sm:w-1/2 mx-auto text-center mt-5"
+    >
       <li class="cart" v-for="(product, index) in store.cart" :key="product.id">
         <Cart :product="product" :index="index" />
       </li>
@@ -12,7 +15,9 @@
         zł
       </div>
       <button
+        class="disabled:bg-opacity-50"
         :class="[darkButton]"
+        :disabled="!value"
         @click="$router.push({ name: 'transaction' })"
       >
         Dokończ zakup
@@ -40,10 +45,21 @@
 <script lang="ts" setup>
 import Cart from "@/components/cart/Cart.vue";
 import Section from "@/components/commons/Section.vue";
-import { darkButton } from "@/resusables/css-classes";
+import { darkButton, primaryButton } from "@/resusables/css-classes";
 import { useCartStore } from "@/stores/cart";
+import { ref, watch } from "@vue/runtime-core";
 
 const store = useCartStore();
+
+const calculate = (cart: any) => {
+  return cart.reduce((acc: number, curr: object) => acc + curr?.quantity, 0);
+};
+
+const value = ref(calculate(store.cart));
+
+watch(store.cart, (current) => {
+  value.value = calculate(current);
+});
 </script>
 
 <style lang="scss" scoped>

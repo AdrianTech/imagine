@@ -1,20 +1,31 @@
 <template>
-  <div v-if="cartStore.cart.length" class="flex items-center">
-    <p class="mr-2 flex-1">{{ title }}</p>
+  <div
+    v-if="cartStore.cart.length"
+    class="
+      flex
+      items-center
+      justify-center
+      gap-x-2
+      border-b border-slate-500
+      pb-2
+    "
+  >
+    <p class="mr-2 text-lg">{{ title }}</p>
     <span class="font-bold">{{ isPromotion ? discount_price : price }} zł</span
-    ><img
-      :src="`${config.nestApiPath}/uploads/` + gallery[0]"
-      alt=""
-      class="mb-2"
-    />
+    ><img :src="`/uploads/` + gallery[0]" alt="" class="mb-2" />
     <input
-      class="ml-2 border p-2 w-[80px]"
+      class="ml-2 border font-semibold p-1 w-[60px]"
       type="number"
       min="0"
       v-model="quantity"
       @change="quantityHandle"
     />
-    <button class="ml-2" @click="cartStore.removeFromCart(id)">Usuń</button>
+    <button
+      class="ml-2 border bg-red-600 text-white px-3 py-1 rounded-sm"
+      @click="cartStore.removeFromCart(id)"
+    >
+      Usuń
+    </button>
   </div>
 </template>
 
@@ -24,6 +35,7 @@ import config from "@/resusables/config";
 import { primaryButton } from "@/resusables/css-classes";
 import { useCartStore } from "@/stores/cart";
 import { PropType, ref } from "@vue/runtime-core";
+import Section from "../commons/Section.vue";
 const cartStore = useCartStore();
 
 const props = defineProps({

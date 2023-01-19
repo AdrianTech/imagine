@@ -15,7 +15,7 @@ export class DeliveryOption {
     @Expose()
     name: string;
 
-    @Column('bool', { default: true })
+    @Column('bool', { default: false })
     @Expose()
     active: boolean;
 

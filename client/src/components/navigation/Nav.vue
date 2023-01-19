@@ -2,7 +2,7 @@
   <nav
     v-if="!$route.meta.access"
     class="
-      border-b border-white
+      border-b border-slate-300
       font-primary
       px-4
       lg:px-6

@@ -69,9 +69,6 @@ const { page, limit, sortBy } = useRoute().query;
 
 const query = `${config.nestApiPath}/admin/products?page=${page}&limit=${limit}&sortBy=${sortBy}`;
 await store.getProducts({ path: query, method: "get" });
-// watch(store.products, (current) => {
-//   settings.targetItem = current[0];
-// });
 
 const actionHandle = async (type: string, id: number): Promise<void> => {
   switch (type) {

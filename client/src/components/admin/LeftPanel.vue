@@ -64,7 +64,9 @@
             >Użytkownicy</router-link
           >
         </li>
-        <li class="my-4"><a href="">Centrum analiz</a></li>
+        <li class="my-4">
+          <router-link :to="{ name: 'delivery' }">Opcje dostawy</router-link>
+        </li>
         <li class="my-4">
           <button @click="$router.push({ name: 'home' })">Powrót</button>
         </li>

@@ -69,7 +69,7 @@
           </div>
           <button
             v-if="user.role === 'Admin'"
-            class=""
+            class="text-left ml-2 text-amber-900 font-semibold"
             @click="dialog(true, 'moreDetails')"
           >
             Pokaż więcej szczegółów

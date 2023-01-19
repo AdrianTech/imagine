@@ -15,7 +15,7 @@ export class CreateDeliveryOptionDto {
     @MinLength(3)
     name: string;
 
-    @Exclude()
+    @Expose()
     @IsOptional()
     active: boolean;
 

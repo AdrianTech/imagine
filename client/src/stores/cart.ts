@@ -7,9 +7,10 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { Ref } from 'vue';
 import { useEventStore } from './event';
+import { useTranslationStore } from './translation';
 
 export const useCartStore = defineStore('cart', {
-    state: () => ({ cart: JSON.parse(localStorage.getItem('cart') || "[]") as IProduct[] }),
+    state: () => ({ cart: JSON.parse(localStorage.getItem('cart') || "[]") as IProduct[], message: useEventStore().eventMessageHelper, langValue: useTranslationStore().setValue }),
 
     getters: {
         cartTotalSum: ({ cart }) => (
@@ -24,12 +25,14 @@ export const useCartStore = defineStore('cart', {
 
     actions: {
         addToCart(product: any): void {
-            const filtered: IProduct[] = this.getAndFilter(product.id);
+            const cart: IProduct[] = getItem('cart');
+            if (cart.some((item: IProduct) => product.id === item.id)) return this.message(this.langValue('Już dodano do koszyka'));
             product.quantity = 1;
             !product.isPromotion && delete product.discount_price;
-            filtered.push(product)
-            setItem('cart', filtered);
-            this.cart = filtered;
+            cart.push(product)
+            setItem('cart', cart);
+            this.cart = cart;
+            this.message(this.langValue('Dodano do koszyka'))
         },
 
         updateCart(quantity: Ref<number>, index: number): void {
@@ -41,6 +44,7 @@ export const useCartStore = defineStore('cart', {
             const filtered: IProduct[] = this.getAndFilter(id)
             setItem('cart', filtered);
             this.cart = filtered;
+            useEventStore().eventMessageHelper(useTranslationStore().setValue('Usunięto z koszyka'))
         },
 
         getAndFilter(id: number | string) {
@@ -56,12 +60,14 @@ export const useCartStore = defineStore('cart', {
                 const res = await axios.post(`${config.nestApiPath}/orders`, {
                     name, surname, zipcode, city, phone, voivodeship, deliver: deliveryOption, totalPrice, productsList: cart, email, address, totalItems
                 })
-
+                this.cart = [];
+                localStorage.removeItem('cart');
+                return true
             } catch ({ response: { data: { message } } }) {
                 const store = useEventStore();
                 store.errors = message as any;
                 dialog(true, 'errors');
-
+                return false
             }
         }
     }
