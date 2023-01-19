@@ -134,7 +134,7 @@
           </li>
           <li>
             <router-link :to="{ name: 'about' }" :class="[achoreNav]">{{
-              setValue("O mnie")
+              t("O mnie")
             }}</router-link>
           </li>
           <li>
@@ -148,19 +148,20 @@
                 },
               }"
               :class="[achoreNav]"
-              >{{ setValue("Obrazy") }}</router-link
+              >{{ t("Obrazy") }}</router-link
             >
           </li>
           <li>
             <router-link :to="{ name: 'contact' }" :class="[achoreNav]">{{
-              setValue("Kontakt")
+              t("Kontakt")
             }}</router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'cart' }" :class="[achoreNav]"
-              >{{ setValue("Koszyk") }} ({{
-                cartStore.cart.length
-              }})</router-link
+            <router-link
+              :to="{ name: 'cart' }"
+              class="border-b-0"
+              :class="[achoreNav]"
+              >{{ t("Koszyk") }} ({{ cartStore.cart.length }})</router-link
             >
           </li>
         </ul>
@@ -175,7 +176,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useCartStore } from "@/stores/cart";
 import { useTranslationStore } from "@/stores/translation";
 import { ref } from "@vue/reactivity";
-const { setValue } = useTranslationStore();
+const { t } = useTranslationStore();
 
 const store = useAuthStore();
 const cartStore = useCartStore();

@@ -108,6 +108,7 @@ import { PropType, ref } from "vue";
 import { useEventStore } from "@/stores/event";
 import { reset } from "@formkit/core";
 import { formBottomNav, formAdmin } from "@/resusables/css-classes";
+import { handleSubmitData } from "@/resusables/methods";
 
 const props = defineProps({
   action: Boolean as PropType<boolean>,
@@ -134,15 +135,8 @@ const deleteRequredInValidation = (str: string): string => {
 };
 
 const submit = async (data: any) => {
-  Object.keys(data).forEach((key) => {
-    if (!data[key]) delete data[key];
-  });
-
-  if (!Object.keys(data).length)
-    return eventStore.eventMessageHelper(
-      "Wypełnił przynajmniej jedno pole",
-      true
-    );
+  const form = handleSubmitData(data);
+  if (!form) return;
 
   const methodChoice = props.action ? "patch" : "post";
 
@@ -150,10 +144,10 @@ const submit = async (data: any) => {
 
   const result = await store.createOrUpdate(
     {
-      path: `${config.nestApiPath}/admin/users`,
+      path: `/admin/users`,
       method: methodChoice,
       withCredentials: true,
-      body: data,
+      body: form,
     },
     "users",
     props.action && props.userID

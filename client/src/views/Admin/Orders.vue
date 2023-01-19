@@ -1,6 +1,6 @@
 <template>
   <AdminSection>
-    <div class="w-full sm:w-3/4 pt-7 pl-3">
+    <div class="w-full sm:w-3/4 pt-7 pl-3 mx-auto">
       <section-title>Tutaj znajdziesz zamówienia klientów</section-title>
       <select-items
         :func="store.getOrders"

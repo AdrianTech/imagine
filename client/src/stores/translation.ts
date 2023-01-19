@@ -10,7 +10,7 @@ export const useTranslationStore = defineStore('translations', {
             this.lang = window.navigator.language === 'pl' ? 'pl' : 'en';
         },
 
-        setValue(key: string) {
+        t(key: string) {
             return translations[this.lang][key]
         }
     }

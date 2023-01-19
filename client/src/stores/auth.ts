@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async login(email: string, password: string, remember: boolean): Promise<boolean> {
             const event = useEventStore();
-            const { setValue } = useTranslationStore()
+            const { t } = useTranslationStore()
             try {
                 const res = await axios.post(`${config.nestApiPath}/users/login`, {
                     password,
@@ -30,11 +30,11 @@ export const useAuthStore = defineStore('auth', {
                 if (remember) this.setRemember();
                 this.isLogged = true;
                 this.user = res.data;
-                event.eventMessageHelper(setValue('Logowanie powiodło się'));
+                event.eventMessageHelper(t('Logowanie powiodło się'));
                 return true;
             } catch (err: any) {
                 const status: string = err.response.status === 401 ? 'Nieprawidłowe hasło lub email' : 'Coś poszło nie tak';
-                event.eventMessageHelper(setValue(status), true)
+                event.eventMessageHelper(t(status), true)
                 return false
             }
         },

@@ -5,11 +5,11 @@
       v-model="selected"
       @change="changeLimit"
     >
-      <option value="5">{{ setValue("Wyświetl") }} 5</option>
-      <option value="1">{{ setValue("Wyświetl") }} 1</option>
-      <option value="10">{{ setValue("Wyświetl") }} 10</option>
-      <option value="20">{{ setValue("Wyświetl") }} 20</option>
-      <option value="50">{{ setValue("Wyświetl") }} 50</option>
+      <option value="5">{{ t("Wyświetl") }} 5</option>
+      <option value="1">{{ t("Wyświetl") }} 1</option>
+      <option value="10">{{ t("Wyświetl") }} 10</option>
+      <option value="20">{{ t("Wyświetl") }} 20</option>
+      <option value="50">{{ t("Wyświetl") }} 50</option>
     </select>
   </form>
 </template>
@@ -19,7 +19,7 @@ import config from "@/resusables/config";
 import { useTranslationStore } from "@/stores/translation";
 import { ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-const { setValue } = useTranslationStore();
+const { t } = useTranslationStore();
 
 const router = useRouter();
 const query = useRoute().query;

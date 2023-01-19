@@ -1,5 +1,7 @@
 <template>
-  <div class="overflow-x-auto relative sm:rounded-lg my-5">
+  <div
+    class="overflow-x-auto relative sm:rounded-lg my-5 border border-slate-400"
+  >
     <table class="w-full text-sm text-left text-gray-900">
       <thead class="text-xs text-gray-100 uppercase bg-blue-800 lg:text-[14px]">
         <tr>
@@ -34,8 +36,9 @@
           :key="item.id"
           class="
             bg-white
+            even:bg-blue-50
             border-b border-b-[#6073ed]
-            dark:bg-slate-100
+            last:border-b-0
             lg:text-[16px]
           "
         >

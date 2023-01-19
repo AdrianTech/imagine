@@ -13,11 +13,11 @@ export const useDeliveryStore = defineStore('delivery', {
             this.deliveryOptions = data || [];
         },
         async deliverAction(setup: Setup, id: number) {
-            const { setValue } = useTranslationStore();
+            const { t } = useTranslationStore();
             const { eventMessageHelper } = useEventStore();
             try {
                 const { data }: HttpRequester = await httpRequester(setup);
-                eventMessageHelper(setValue('Akcja powiodła się'));
+                eventMessageHelper(t('Akcja powiodła się'));
                 if (setup.method === 'delete') {
                     return this.deliveryOptions = this.deliveryOptions.filter((deliver: any) => deliver.id !== id)
                 }

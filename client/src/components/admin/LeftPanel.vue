@@ -43,7 +43,7 @@
               name: 'orders',
               query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
             }"
-            >Zamówienia</router-link
+            >{{ t ? "Zamówienia" : "Orders" }}</router-link
           >
         </li>
         <li class="my-4">
@@ -52,7 +52,7 @@
               name: 'adminProducts',
               query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
             }"
-            >Produkty</router-link
+            >{{ t ? "Produkty" : "Products" }}</router-link
           >
         </li>
         <li class="my-4">
@@ -61,14 +61,18 @@
               name: 'adminUsers',
               query: { page: 1, limit: 5, sortBy: 'createdAt:DESC' },
             }"
-            >Użytkownicy</router-link
+            >{{ t ? "Użytkownicy" : "Users" }}</router-link
           >
         </li>
         <li class="my-4">
-          <router-link :to="{ name: 'delivery' }">Opcje dostawy</router-link>
+          <router-link :to="{ name: 'delivery' }">{{
+            t ? "Opcje dostawy" : "Delivery options"
+          }}</router-link>
         </li>
         <li class="my-4">
-          <button @click="$router.push({ name: 'home' })">Powrót</button>
+          <button @click="$router.push({ name: 'home' })">
+            {{ t ? "Powrót" : "Back" }}
+          </button>
         </li>
       </ul>
     </nav>
@@ -77,11 +81,8 @@
 
 <script lang="ts" setup>
 import { useAdminStore } from "@/stores/admin";
+import { useTranslationStore } from "@/stores/translation";
 const store = useAdminStore();
+const { lang } = useTranslationStore();
+const t = lang === "pl" ? true : false;
 </script>
-
-<style lang="scss" scoped>
-// ul {
-//   list-style: ;
-// }
-</style>

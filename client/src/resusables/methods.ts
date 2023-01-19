@@ -4,6 +4,7 @@
 
 import { Setup } from "@/interfaces/methods";
 import { useEventStore } from "@/stores/event";
+import { useTranslationStore } from "@/stores/translation";
 import axios, { AxiosRequestHeaders } from "axios";
 
 /**
@@ -42,9 +43,6 @@ export const convertDate = (date: string, option: string): string => new Date(da
 
 
 export const httpRequester = async (setup: Setup): Promise<object> => {
-
-    const result = { error: "", data: [] };
-
     const instance = axios.create({
         withCredentials: true,
         method: setup.method,
@@ -58,6 +56,9 @@ export const handleSubmitData = (data: any): Object | void => {
         if (!data[key]) delete data[key];
     });
 
-    if (!Object.keys(data).length) return false
+    if (!Object.keys(data).length) {
+        useEventStore().eventMessageHelper(useTranslationStore().t("Wypełnił przynajmniej jedno pole"), true)
+        return false
+    }
     return data;
 }

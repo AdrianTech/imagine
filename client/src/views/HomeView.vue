@@ -1,5 +1,4 @@
 <template>
-  <!-- <SectionVue> -->
   <div class="welcome flex justify-center items-center font-primary">
     <header
       class="
@@ -18,7 +17,7 @@
       </h1>
       <div class="w-[4px] bg-red-700 mx-3"></div>
       <h3 class="text-yellow-300 font-extrabold text-xl md:text-3xl">
-        {{ setValue("Malarstwo, Rysunek i Sztuka") }}
+        {{ t("Malarstwo, Rysunek i Sztuka") }}
       </h3>
       <button
         class="
@@ -43,15 +42,13 @@
       </button>
     </header>
   </div>
-  <!-- </SectionVue> -->
 </template>
 
 <script lang="ts" setup>
-import SectionVue from "@/components/commons/Section.vue";
 import { useAuthStore } from "@/stores/auth";
 import { useEventStore } from "@/stores/event";
 import { useTranslationStore } from "@/stores/translation";
-const { setValue } = useTranslationStore();
+const { t } = useTranslationStore();
 const store = useAuthStore();
 const event = useEventStore();
 </script>

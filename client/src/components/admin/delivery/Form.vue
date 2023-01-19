@@ -107,8 +107,7 @@ const deleteRequiredInValidation = (str: string): string => {
 
 const submitData = (data: any) => {
   const form = handleSubmitData(data);
-  if (!form)
-    return event.eventMessageHelper("Wypełnił przynajmniej jedno pole", true);
+  if (!form) return;
   data.active && (data.active = data.active === "true");
 
   store.deliverAction(

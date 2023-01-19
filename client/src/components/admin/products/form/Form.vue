@@ -173,6 +173,7 @@ import { IProduct } from "@/interfaces/product";
 import { useAuthStore } from "@/stores/auth";
 import PromotionForm from "./Promotion.partial.vue";
 import { reset } from "@formkit/core";
+import { handleSubmitData } from "@/resusables/methods";
 
 const props = defineProps<{
   settings: {
@@ -212,16 +213,9 @@ const deleteRequredInValidation = (str: string): string => {
 };
 
 const submit = async (data: any) => {
-  Object.keys(data).forEach((key) => {
-    if (!data[key]) delete data[key];
-  });
-
-  if (!Object.keys(data).length)
-    return eventStore.eventMessageHelper(
-      "Wypełnił przynajmniej jedno pole",
-      true
-    );
-  let body = data;
+  const form = handleSubmitData(data);
+  if (!form) return;
+  let body = form;
 
   const setCorrectPath = () => {
     if (action.value)

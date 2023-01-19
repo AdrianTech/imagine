@@ -31,7 +31,7 @@
       />
       <p class="text-white">
       <h3 class="font-bold text-center my-2 text-xl">
-        {{ setValue("Jestem Victoria...") }}
+        {{ t("Jestem Victoria...") }}
       </h3>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
       consequuntur veritatis corporis, harum iste aperiam magnam nulla velit
@@ -57,13 +57,13 @@
           :class="[primaryButton]"
           @click="$router.push({ name: 'products' })"
         >
-          {{ setValue("Zobacz moje obrazy") }}
+          {{ t("Zobacz moje obrazy") }}
         </button>
         <button
           :class="[primaryButton]"
           @click="$router.push({ name: 'contact' })"
         >
-          {{ setValue("Skontaktuj się ze mną") }}
+          {{ t("Skontaktuj się ze mną") }}
         </button>
       </div>
     </div>
@@ -75,7 +75,7 @@ import Section from "@/components/commons/Section.vue";
 import { primaryButton } from "@/resusables/css-classes";
 import { useTranslationStore } from "@/stores/translation";
 import SectionTitle from "../resusables/wrappers/SectionTitle.vue";
-const { setValue } = useTranslationStore();
+const { t } = useTranslationStore();
 </script>
 
 <style lang="scss" scoped>

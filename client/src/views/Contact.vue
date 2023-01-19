@@ -1,7 +1,7 @@
 <template>
   <Section>
     <div class="w-full md:w-1/2 md:mx-auto mt-2">
-      <section-title>{{ setValue("Bądźmy w kontakcie...") }}</section-title>
+      <section-title>{{ t("Bądźmy w kontakcie...") }}</section-title>
       <div
         class="
           flex flex-col
@@ -47,7 +47,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {{ setValue("Odwiedź mnie na Facebook") }}</a
+                  {{ t("Odwiedź mnie na Facebook") }}</a
                 ></span
               >
             </li>
@@ -67,7 +67,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {{ setValue("Odwiedź mnie na Instagram") }}</a
+                  {{ t("Odwiedź mnie na Instagram") }}</a
                 ></span
               >
             </li>
@@ -82,7 +82,7 @@
 import Section from "@/components/commons/Section.vue";
 import SectionTitle from "@/resusables/wrappers/SectionTitle.vue";
 import { useTranslationStore } from "@/stores/translation";
-const { setValue } = useTranslationStore();
+const { t } = useTranslationStore();
 
 const descSpan = "text-xl md:text-2xl font-bold text-slate-800 ml-3";
 </script>

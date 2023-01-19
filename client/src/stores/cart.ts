@@ -10,7 +10,7 @@ import { useEventStore } from './event';
 import { useTranslationStore } from './translation';
 
 export const useCartStore = defineStore('cart', {
-    state: () => ({ cart: JSON.parse(localStorage.getItem('cart') || "[]") as IProduct[], message: useEventStore().eventMessageHelper, langValue: useTranslationStore().setValue }),
+    state: () => ({ cart: JSON.parse(localStorage.getItem('cart') || "[]") as IProduct[], message: useEventStore().eventMessageHelper, t: useTranslationStore().t }),
 
     getters: {
         cartTotalSum: ({ cart }) => (
@@ -26,13 +26,13 @@ export const useCartStore = defineStore('cart', {
     actions: {
         addToCart(product: any): void {
             const cart: IProduct[] = getItem('cart');
-            if (cart.some((item: IProduct) => product.id === item.id)) return this.message(this.langValue('Już dodano do koszyka'));
+            if (cart.some((item: IProduct) => product.id === item.id)) return this.message(this.t('Już dodano do koszyka'));
             product.quantity = 1;
             !product.isPromotion && delete product.discount_price;
             cart.push(product)
             setItem('cart', cart);
             this.cart = cart;
-            this.message(this.langValue('Dodano do koszyka'))
+            this.message(this.t('Dodano do koszyka'))
         },
 
         updateCart(quantity: Ref<number>, index: number): void {
@@ -44,7 +44,7 @@ export const useCartStore = defineStore('cart', {
             const filtered: IProduct[] = this.getAndFilter(id)
             setItem('cart', filtered);
             this.cart = filtered;
-            useEventStore().eventMessageHelper(useTranslationStore().setValue('Usunięto z koszyka'))
+            useEventStore().eventMessageHelper(this.t('Usunięto z koszyka'))
         },
 
         getAndFilter(id: number | string) {
