@@ -19,6 +19,7 @@ export class ProductsService {
       sortableColumns: ['id', 'createdAt', 'updatedAt', 'price', 'title'],
       searchableColumns: ['title', 'price', 'description', 'production_year', 'base', 'technique'],
       filterableColumns: {
+        id: [FilterOperator.IN],
         title: [FilterOperator.IN, FilterOperator.EQ],
         production_year: [FilterOperator.IN, FilterOperator.EQ],
         technique: [FilterOperator.IN, FilterOperator.EQ],

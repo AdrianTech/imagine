@@ -50,17 +50,11 @@ import { useCartStore } from "@/stores/cart";
 import { ref, watch } from "@vue/runtime-core";
 
 const store = useCartStore();
+store.refreshCart();
 
-const calculate = (cart: any) => {
-  return cart.reduce((acc: number, curr: object) => acc + curr?.quantity, 0);
-};
+const value = ref(store.cartTotalSum);
 
-const value = ref(calculate(store.cart));
-
-watch(store.cart, (current) => {
-  value.value = calculate(current);
+watch(store, (current) => {
+  value.value = current.cartTotalSum;
 });
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -11,6 +11,7 @@
       :properties="['username', 'role']"
       :action="actionHandle"
     />
+    <Paginate :metas="store.metas" name="users" :getFunc="store.getAll" />
     <button :class="primaryButton" @click="formHandle(false)">
       <i class="fa-solid fa-circle-plus text-[18px] text-green-700 mr-2"></i
       >Dodaj użytkownika
@@ -31,6 +32,7 @@ import { useAdminStore } from "@/stores/admin";
 import Table from "../../commons/Table.vue";
 import Form from "./UsersForm.vue";
 import SelectItems from "@/components/commons/SelectItems.vue";
+import Paginate from "@/components/pagination/Paginate.vue";
 import { Ref, ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import { primaryButton } from "@/resusables/css-classes";

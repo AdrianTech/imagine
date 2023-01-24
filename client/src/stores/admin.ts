@@ -1,9 +1,11 @@
 import { HttpRequester, Setup } from "@/interfaces/methods";
 import { IProduct, Metas } from "@/interfaces/product";
-import { httpRequester } from "@/resusables/methods";
+import { errorMessagesHelper, httpRequester } from "@/resusables/methods";
 import { defineStore } from "pinia";
 import { useEventStore } from "./event";
-import { useProductsStore } from "./products";
+import { useTranslationStore } from "./translation";
+import Confirm from '@/components/commons/confirm/Confirm.vue';
+import { createConfirmDialog } from 'vuejs-confirm-dialog'
 
 type Params = {
     storeData: 'products' | 'orders' | 'users';
@@ -20,33 +22,20 @@ export const useAdminStore = defineStore('admin', {
     }),
 
     actions: {
-        async getProducts(setup: Setup) {
-            const store = useProductsStore();
-            const data = await store.getProducts(setup);
-            this.products = data.data;
-            this.metas.links = data.links;
-            this.metas.meta = data.meta;
-        },
-        async getOrders(setup: Setup) {
-            try {
-                const { data }: any = await httpRequester(setup);
-                this.orders = data.data;
-                this.metas.meta = data.meta;
-                this.metas.links = data.links;
-            } catch (error) {
-                console.log(error);
-
-            }
-        },
         async removeElement(setup: Setup, id: number | string, dataName: Params['storeData']) {
             const eventStore = useEventStore();
+            const { t } = useTranslationStore()
+            const dialog = createConfirmDialog(Confirm, { question: t("Wykonać tę akcję?") })
+            const { isCanceled } = await dialog.reveal();
+            if (isCanceled) return;
             try {
                 const res: any = await httpRequester(setup);
                 this[dataName] = this[dataName].filter((item: any) => item.id !== id) as any;
-                eventStore.eventMessageHelper('Użytkownik usunięty');
+                eventStore.eventMessageHelper(t('Usunięto z zasobów'));
 
-            } catch (error) {
-                console.log(error);
+            } catch (error: any) {
+                const { statusCode } = error.response.data;
+                errorMessagesHelper(statusCode)
 
             }
         },
@@ -60,25 +49,16 @@ export const useAdminStore = defineStore('admin', {
                 else this[dataName].push(res.data);
                 return true
             } catch (error: any) {
-                const { message } = error.response.data;
-                const eventStore = useEventStore();
-                eventStore.eventMessageHelper(message)
+                const { statusCode } = error.response.data;
+                errorMessagesHelper(statusCode)
                 return false
-            }
-        },
-        async updateOrder(setup: Setup) {
-            try {
-                const { data }: HttpRequester = await httpRequester(setup);
-                return data;
-            } catch (err) {
-                console.log(err)
             }
         },
         async getAll(setup: Setup, property: Params['storeData']) {
             try {
                 const { data }: any = await httpRequester(setup);
 
-                this[property] = data.hasOwnProperty('data') ? data.data : data;
+                this[property] = data.data;
                 this.metas.links = data.links;
                 this.metas.meta = data.meta;
             } catch (err) {

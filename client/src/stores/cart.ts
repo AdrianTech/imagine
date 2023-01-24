@@ -2,7 +2,7 @@ import { IProduct } from '@/interfaces/product';
 import { IOrder } from '@/interfaces/stores/cart';
 import config from '@/resusables/config';
 import { getItem, setItem } from '@/resusables/localStorages';
-import { dialog } from '@/resusables/methods';
+import { dialog, httpRequester } from '@/resusables/methods';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { Ref } from 'vue';
@@ -40,6 +40,23 @@ export const useCartStore = defineStore('cart', {
             setItem('cart', this.cart);
         },
 
+        async refreshCart() {
+            if (!this.cart.length) return;
+            const ids = this.cart.map((product: IProduct) => product.id);
+            const { data: { data } }: any = await httpRequester({
+                path: `/products?filter.id=$in:${ids}`,
+                method: 'get'
+            })
+            if (data.length) {
+                const refreshedCart: IProduct[] = this.cart.map((product: IProduct, index) => {
+                    data[index].quantity = product.quantity;
+                    return data[index];
+                });
+                this.cart = refreshedCart;
+                setItem('cart', refreshedCart);
+            }
+        },
+
         removeFromCart(id: number | string) {
             const filtered: IProduct[] = this.getAndFilter(id)
             setItem('cart', filtered);
@@ -57,7 +74,7 @@ export const useCartStore = defineStore('cart', {
             try {
 
                 const totalItems: number = this.cart.reduce((acc, current) => acc + current.quantity, 0)
-                const res = await axios.post(`${config.nestApiPath}/orders`, {
+                await axios.post(`${config.nestApiPath}/orders`, {
                     name, surname, zipcode, city, phone, voivodeship, deliver: deliveryOption, totalPrice, productsList: cart, email, address, totalItems
                 })
                 this.cart = [];

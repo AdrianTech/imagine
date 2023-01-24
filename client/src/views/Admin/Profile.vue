@@ -1,9 +1,7 @@
 <template>
-  <div class="">Profile View</div>
+  <User />
 </template>
 
 <script lang="ts" setup>
+import User from "@/components/users/User.vue";
 </script>
-
-<style lang="scss" scoped>
-</style>

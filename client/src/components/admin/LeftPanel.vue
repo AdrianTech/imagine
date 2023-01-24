@@ -19,17 +19,20 @@
       @click="store.navBar = !store.navBar"
       class="
         absolute
-        -right-11
+        -right-10
         border-2
         py-2
-        px-4
+        px-3
         rounded-sm
         z-20
         bg-slate-600
         text-yellow-50
       "
     >
-      {{ store.navBar ? "X" : ">>" }}
+      <i
+        :class="`fa fa-arrow-${store.navBar ? 'left' : 'right'}`"
+        aria-hidden="true"
+      ></i>
     </button>
     <nav
       class="flex flex-col w-full relative transition-opacity px-4"

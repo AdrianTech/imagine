@@ -20,7 +20,8 @@
     "vue": "^3.2.13",
     "vue-easy-lightbox": "^1.8.2",
     "vue-router": "^4.0.3",
-    "vue-spinner": "^1.0.4"
+    "vue-spinner": "^1.0.4",
+    "vuejs-confirm-dialog": "^0.5.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",

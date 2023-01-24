@@ -3,7 +3,7 @@
     <div class="w-full sm:w-3/4 pt-7 pl-3 mx-auto">
       <section-title>Tutaj znajdziesz zamówienia klientów</section-title>
       <select-items
-        :func="store.getOrders"
+        :func="store.getAll"
         clientPageName="zamowienia"
         serverPageName="orders"
       />
@@ -43,7 +43,7 @@
         v-if="store.metas.meta?.totalItems"
         :metas="store.metas"
         name="orders"
-        :getFunc="store.getOrders"
+        :getFunc="store.getAll"
       />
     </div>
   </AdminSection>
@@ -63,12 +63,12 @@ import { useRoute } from "vue-router";
 const store = useAdminStore();
 const query = useRoute().query;
 
-store.getOrders({
-  path: `${config.nestApiPath}/orders?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`,
-  method: "get",
-  withCredentials: true,
-});
+store.getAll(
+  {
+    path: `/orders?page=${query.page}&limit=${query.limit}&sortBy=${query.sortBy}`,
+    method: "get",
+    withCredentials: true,
+  },
+  "orders"
+);
 </script>
-
-<style lang="scss" scoped>
-</style>

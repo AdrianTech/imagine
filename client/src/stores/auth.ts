@@ -5,6 +5,8 @@ import { useEventStore } from "./event";
 import config from '../resusables/config'
 import { IUser } from "@/interfaces/user";
 import { useTranslationStore } from "./translation";
+import Confirm from '@/components/commons/confirm/Confirm.vue';
+import { createConfirmDialog } from 'vuejs-confirm-dialog'
 
 const instance = axios.create({
     withCredentials: true,
@@ -21,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
             const event = useEventStore();
             const { t } = useTranslationStore()
             try {
-                const res = await axios.post(`${config.nestApiPath}/users/login`, {
+                const res = await axios.post(`/users/login`, {
                     password,
                     email
                 }, {
@@ -38,16 +40,19 @@ export const useAuthStore = defineStore('auth', {
                 return false
             }
         },
-        logout() {
+        async logout() {
             const event = useEventStore();
+            const dialog = createConfirmDialog(Confirm, { question: useTranslationStore().t("Chcesz się wylogować?") })
+            const { isCanceled } = await dialog.reveal();
+            if (isCanceled) return;
             try {
                 instance.get('/users/logout', { withCredentials: true })
                 this.deleteRemember();
                 this.isLogged = false;
                 this.user = null;
-
+                event.eventMessageHelper('Zostałeś wylogowany')
             } catch (err) {
-                event.eventMessageHelper('Coś poszło nie tak')
+                event.eventMessageHelper('Coś poszło nie tak', true)
             }
         },
         /**

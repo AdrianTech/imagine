@@ -4,13 +4,15 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['error', 'warn']
   });
-  app.enableCors({ credentials: true });
+  app.enableCors({ credentials: true, origin: process.env.ORIGIN });
   app.disable(['x-powered-by']);
   app.useStaticAssets(join(__dirname, '..', "uploads"), {
     prefix: '/uploads/'

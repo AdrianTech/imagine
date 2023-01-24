@@ -1,4 +1,4 @@
-import { Body, CanActivate, ExecutionContext, ForbiddenException, Injectable, mixin } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, mixin } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { matchRoles } from '../shared/functions/matchRoles';
 import { ROLES } from '../shared/variables/enums';

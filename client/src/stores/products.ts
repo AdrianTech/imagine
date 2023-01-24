@@ -20,9 +20,6 @@ export const useProductsStore = defineStore('products', {
             return arrayCopy;
         },
         async getProducts(setup: Setup): Promise<any> {
-            const defaultQuery = `${config.nestApiPath}/products?page=1&limit=5&sortBy=createdAt:DESC`;
-            const store = useEventStore();
-
             try {
                 const { data }: any = await httpRequester(setup);
                 this.products = data.data

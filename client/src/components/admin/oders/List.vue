@@ -28,6 +28,3 @@ const { products } = defineProps<{
   products: Object[];
 }>();
 </script>
-
-<style lang="scss" scoped>
-</style>

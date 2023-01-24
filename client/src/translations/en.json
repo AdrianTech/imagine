@@ -18,5 +18,11 @@
     "Usunięto z koszyka": "Removed from cart",
     "Już dodano do koszyka": "Already added to cart",
     "Akcja powiodła się": "All done",
-    "Wypełnił przynajmniej jedno pole": "Fill at least one field"
+    "Wypełnił przynajmniej jedno pole": "Fill at least one field",
+    "Chcesz się wylogować?": "Want to log out?",
+    "Potwierdź": "Confirm",
+    "Anuluj": "Cancel",
+    "Wykonać tę akcję?": "Perform this action?",
+    "Usunięto z zasobów": "Removed from resources",
+    "Nie masz wystarczających uprawnień": "You don't have sufficient permissions"
 }

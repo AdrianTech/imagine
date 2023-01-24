@@ -2,7 +2,7 @@
   <div class="wrapper w-full md:w-3/4 mx-auto" v-if="!showForm">
     <div class="flex gap-3">
       <select-items
-        :func="store.getProducts"
+        :func="store.getAll"
         clientPageName="produkty"
         serverPageName="products"
       />
@@ -16,11 +16,7 @@
       :properties="['title', 'price', 'isPromotion']"
       :action="actionHandle"
     />
-    <Paginate
-      :metas="store.metas"
-      :name="'products'"
-      :getFunc="store.getProducts"
-    />
+    <Paginate :metas="store.metas" name="products" :getFunc="store.getAll" />
     <button
       :class="primaryButton"
       @click="showForm = !showForm"
@@ -67,8 +63,8 @@ const settings = reactive({
 });
 const { page, limit, sortBy } = useRoute().query;
 
-const query = `${config.nestApiPath}/admin/products?page=${page}&limit=${limit}&sortBy=${sortBy}`;
-await store.getProducts({ path: query, method: "get" });
+const query = `/admin/products?page=${page}&limit=${limit}&sortBy=${sortBy}`;
+await store.getAll({ path: query, method: "get" }, "products");
 
 const actionHandle = async (type: string, id: number): Promise<void> => {
   switch (type) {
@@ -93,6 +89,3 @@ const actionHandle = async (type: string, id: number): Promise<void> => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

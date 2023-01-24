@@ -7,6 +7,7 @@ import { useEventStore } from "@/stores/event";
 import { useTranslationStore } from "@/stores/translation";
 import axios, { AxiosRequestHeaders } from "axios";
 
+
 /**
  * This fuction checks if the element exists in the given array
  * @param array 
@@ -61,4 +62,17 @@ export const handleSubmitData = (data: any): Object | void => {
         return false
     }
     return data;
+}
+
+export const errorMessagesHelper = (code: number) => {
+    const { eventMessageHelper } = useEventStore();
+    const { t } = useTranslationStore();
+
+    switch (code) {
+        case 403:
+            eventMessageHelper(t('Nie masz wystarczających uprawnień'), true)
+            break;
+        default:
+            eventMessageHelper(t('Coś poszło nie tak'), true)
+    }
 }

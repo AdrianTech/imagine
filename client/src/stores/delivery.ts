@@ -1,8 +1,11 @@
 import { HttpRequester, Setup } from '@/interfaces/methods';
-import { httpRequester } from '@/resusables/methods';
+import { errorMessagesHelper, httpRequester } from '@/resusables/methods';
 import { defineStore } from 'pinia';
 import { useEventStore } from './event';
 import { useTranslationStore } from './translation';
+import Confirm from '@/components/commons/confirm/Confirm.vue';
+import { createConfirmDialog } from 'vuejs-confirm-dialog'
+
 
 export const useDeliveryStore = defineStore('delivery', {
     state: () => ({ deliveryOptions: [] as object[] }),
@@ -14,8 +17,12 @@ export const useDeliveryStore = defineStore('delivery', {
         },
         async deliverAction(setup: Setup, id: number) {
             const { t } = useTranslationStore();
+            const { reveal } = createConfirmDialog(Confirm, { question: t('Wykonać tę akcję?') });
             const { eventMessageHelper } = useEventStore();
+
             try {
+                const { isCanceled } = await reveal();
+                if (isCanceled) return;
                 const { data }: HttpRequester = await httpRequester(setup);
                 eventMessageHelper(t('Akcja powiodła się'));
                 if (setup.method === 'delete') {
@@ -26,8 +33,9 @@ export const useDeliveryStore = defineStore('delivery', {
                 }
                 this.deliveryOptions.push(data || {});
                 return true
-            } catch (error) {
-                return false
+            } catch (error: any) {
+                const { statusCode } = error.response.data;
+                errorMessagesHelper(statusCode);
             }
         }
     }

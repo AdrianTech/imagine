@@ -138,7 +138,7 @@ const submit = async (data: any) => {
   const form = handleSubmitData(data);
   if (!form) return;
 
-  const methodChoice = props.action ? "patch" : "post";
+  const methodChoice: string = props.action ? "patch" : "post";
 
   if (props.action) data.id = props.userID;
 
@@ -155,8 +155,6 @@ const submit = async (data: any) => {
   if (result) {
     reset("formID");
     eventStore.eventMessageHelper("Użytkownik został pomyślnie zaktualizowany");
-  } else {
-    eventStore.eventMessageHelper("Wystąpił błąd. Spróbuj ponownie", true);
   }
 };
 </script>

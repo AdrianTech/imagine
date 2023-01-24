@@ -65,11 +65,14 @@ const pageHandler = (targetLink: string) => {
   if (!targetLink) return;
   const getParams: string = targetLink?.replace(`${setPath}/${props.name}`, "");
 
-  props.getFunc({
-    path: `/${props.name}${getParams}`,
-    method: "get",
-    withCredentials: true,
-  });
+  props.getFunc(
+    {
+      path: `/${props.name}${getParams}`,
+      method: "get",
+      withCredentials: true,
+    },
+    props.name
+  );
   router.push(getParams);
 };
 </script>

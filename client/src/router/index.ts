@@ -17,6 +17,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/about',
     name: 'about',
+    meta: {
+      navPath: ['about']
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -60,6 +63,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/profile',
     name: "profile",
     component: () => import(/* webpackChunkName: "about" */ '../views/Admin/Profile.vue'),
+    meta: {
+      navPath: ['profile']
+    },
     beforeEnter: [loggedGuard]
   },
   {

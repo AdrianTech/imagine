@@ -23,19 +23,22 @@
     >
       Niedostępny
     </p>
-    <button @click="cartStore.addToCart(props.product)">
+    <button @click="cartStore.addToCart(props.product)" v-if="!isInCart()">
       Dodaj do koszyka
     </button>
+    <span class="text-green-700" v-else>Dodano do koszyka</span>
     <div class="price">
       <h5 v-if="props.product.isPromotion">
         Cena promocyjna:
         <span class="font-bold text-red-700"
-          >{{ props.product.discount_price.toFixed(2) }} zł</span
+          >{{ parseInt(props.product.discount_price).toFixed(2) }} zł</span
         >
       </h5>
       <h5 v-else>
         Cena:
-        <span class="font-bold">{{ props.product.price.toFixed(2) }} zł</span>
+        <span class="font-bold"
+          >{{ parseInt(props.product.price).toFixed(2) }} zł</span
+        >
       </h5>
     </div>
     <p class="text-[15px]">
@@ -50,7 +53,7 @@
 <script lang="ts" setup>
 import ImageBox from "./ImageBox.vue";
 import { useRoute, useRouter } from "vue-router";
-import { PropType } from "@vue/runtime-core";
+import { PropType, watch } from "@vue/runtime-core";
 import { IProduct } from "@/interfaces/product";
 import { useCartStore } from "@/stores/cart";
 
@@ -60,6 +63,9 @@ const props = defineProps({
 const { push } = useRouter();
 
 const cartStore = useCartStore();
+
+const isInCart = () =>
+  cartStore.cart.find((product: IProduct) => props.product?.id === product.id);
 
 const pushToProductDetails = () =>
   push({ name: "productDetails", params: { id: props.product.id } });

@@ -32,10 +32,8 @@ const props = defineProps({
 });
 
 const changeLimit = ({ target: { value } }: { target: { value: string } }) => {
-  const url = window.location.href;
-  const newUrl = new URL(url);
+  const newUrl = new URL(window.location.href);
   newUrl.searchParams.set("limit", value);
-  // const link = `?page=${query.page}&limit=${value}&sortBy=${query.sortBy}`;
   const fullPath = `${config.nestApiPath}/${props.serverPageName}${newUrl.search}`;
   router.replace(`${props.clientPageName}${newUrl.search}`);
   props.func(

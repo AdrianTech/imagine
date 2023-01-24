@@ -5,6 +5,7 @@
     <router-view />
   </Suspense>
   <message />
+  <DialogsWrapper />
   <Footer />
 </template>
 
@@ -16,6 +17,7 @@ import Message from "@/components/commons/Message.vue";
 import { useAuthStore } from "./stores/auth";
 import { useTranslationStore } from "@/stores/translation";
 const store = useAuthStore();
+
 useTranslationStore().setLang();
 
 if (store.getRemember()) store.rememberLogin();

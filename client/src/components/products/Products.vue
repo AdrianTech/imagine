@@ -42,27 +42,20 @@
 import { useProductsStore } from "@/stores/products";
 import Product from "./Product.vue";
 import Section from "../commons/Section.vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import Paginate from "../pagination/Paginate.vue";
 import SelectItems from "@/components/commons/SelectItems.vue";
 import Filter from "@/components/commons/Filter/Filter.vue";
 import { dialog } from "@/resusables/methods";
-import { useAdminStore } from "@/stores/admin";
 import { primaryButton } from "@/resusables/css-classes";
 import { storeToRefs } from "pinia";
-import { useAuthStore } from "@/stores/auth";
-import { ROLES } from "@/resusables/enums";
 const store = useProductsStore();
-const adminStore = useAdminStore();
 const { page, limit, sortBy } = useRoute().query;
 
 const { products } = storeToRefs(store);
-const { user } = storeToRefs(useAuthStore());
 
-if (!products.value.length) {
-  store.getProducts({
-    path: `/products?page=${page}&limit=${limit}&sortBy=${sortBy}`,
-    method: "get",
-  });
-}
+store.getProducts({
+  path: `/products?page=${page}&limit=${limit}&sortBy=${sortBy}`,
+  method: "get",
+});
 </script>
