@@ -41,6 +41,8 @@ const showForm: Ref<boolean> = ref<boolean>(false);
 const action: Ref<boolean> = ref<boolean>(false);
 const userID = ref(null);
 const store = useAdminStore();
+const router = useRouter();
+
 store.getAll(
   {
     path: `${config.nestApiPath}/users`,
@@ -66,7 +68,7 @@ const actionHandle = async (type: string, id: number): Promise<void> => {
     case "delete":
       await store.removeElement(
         {
-          path: `${config.nestApiPath}/admin/users/${id}`,
+          path: `/admin/users/${id}`,
           method: "delete",
           withCredentials: true,
         },
@@ -75,10 +77,7 @@ const actionHandle = async (type: string, id: number): Promise<void> => {
       );
       break;
     default:
-    //   useRouter().push({ name: "productDetails", params: { id } });
+    // router.push({ name: "profile", params: { id } });
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -36,14 +36,12 @@ export class ProductsManageController {
   @Patch('images/:id')
   @UseInterceptors(FilesInterceptor('files', 5))
   public updateProductImages(@Param('id', ParseIntPipe) id: number, @Body() body: { images: string[] }, @UploadedFiles(new CheckFileSizePipe(4)) files: Array<Express.Multer.File>) {
-
     return this.productsService.updateImages(id, body.images, files)
   }
 
   @Roles(ROLES.Moderator, ROLES.Admin)
   @Delete(':id')
   protected remove(@Param('id', ParseIntPipe) id: number) {
-
     return this.productsService.remove(id);
   }
 

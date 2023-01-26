@@ -14,6 +14,7 @@ import { cookieConfig } from '../configs/cookie';
 import { HashPasswordPipe } from '../pipes/hash-password.pipe';
 import { CheckUpdateRoleGuard } from '../guards/check-update-role.guard';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +28,7 @@ export class UsersController {
     return user;
   }
   @UseGuards(JwtAuthGuard)
+  @Roles(ROLES.Moderator, ROLES.Admin)
   @Get()
   // @Serialize(ResponseUserDto)
   findAll(@Paginate() query: PaginateQuery) {

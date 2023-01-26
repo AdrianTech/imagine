@@ -57,12 +57,12 @@ export const useAdminStore = defineStore('admin', {
         async getAll(setup: Setup, property: Params['storeData']) {
             try {
                 const { data }: any = await httpRequester(setup);
-
                 this[property] = data.data;
                 this.metas.links = data.links;
                 this.metas.meta = data.meta;
-            } catch (err) {
-                console.log(err)
+            } catch (error: any) {
+                const { statusCode } = error.response.data;
+                errorMessagesHelper(statusCode)
             }
         }
     },

@@ -45,12 +45,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useAuthStore } from "@/stores/auth";
-import { useEventStore } from "@/stores/event";
 import { useTranslationStore } from "@/stores/translation";
 const { t } = useTranslationStore();
-const store = useAuthStore();
-const event = useEventStore();
 </script>
 
 <style lang="scss" scoped>

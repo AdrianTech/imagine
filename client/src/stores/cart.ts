@@ -1,6 +1,5 @@
 import { IProduct } from '@/interfaces/product';
 import { IOrder } from '@/interfaces/stores/cart';
-import config from '@/resusables/config';
 import { getItem, setItem } from '@/resusables/localStorages';
 import { dialog, httpRequester } from '@/resusables/methods';
 import axios from 'axios';
@@ -15,9 +14,7 @@ export const useCartStore = defineStore('cart', {
     getters: {
         cartTotalSum: ({ cart }) => (
             cart.reduce((acc, curr) => {
-                if (curr.isPromotion) {
-                    return acc = acc + curr.discount_price * curr.quantity!
-                }
+                if (curr.isPromotion) return acc = acc + curr.discount_price * curr.quantity!
                 return acc = acc + curr.price * curr.quantity!
             }, 0)
         )
@@ -42,19 +39,24 @@ export const useCartStore = defineStore('cart', {
 
         async refreshCart() {
             if (!this.cart.length) return;
-            const ids = this.cart.map((product: IProduct) => product.id);
+            const ids: number[] = this.cart.map((product: IProduct) => product.id);
             const { data: { data } }: any = await httpRequester({
                 path: `/products?filter.id=$in:${ids}`,
                 method: 'get'
             })
-            if (data.length) {
-                const refreshedCart: IProduct[] = this.cart.map((product: IProduct, index) => {
-                    data[index].quantity = product.quantity;
-                    return data[index];
-                });
-                this.cart = refreshedCart;
-                setItem('cart', refreshedCart);
+            const refreshedCart: IProduct[] = this.cart.map((product: IProduct) => {
+                const index: number = data.findIndex((item: IProduct) => item.id === product.id);
+                data[index] && (data[index].quantity = product.quantity);
+                return data[index]
+            }).filter((elem: IProduct) => elem)
+
+
+            if (!refreshedCart.length) {
+                this.cart = [];
+                return localStorage.removeItem('cart');
             }
+            this.cart = refreshedCart;
+            setItem('cart', refreshedCart);
         },
 
         removeFromCart(id: number | string) {
@@ -74,7 +76,7 @@ export const useCartStore = defineStore('cart', {
             try {
 
                 const totalItems: number = this.cart.reduce((acc, current) => acc + current.quantity, 0)
-                await axios.post(`${config.nestApiPath}/orders`, {
+                await axios.post(`/orders`, {
                     name, surname, zipcode, city, phone, voivodeship, deliver: deliveryOption, totalPrice, productsList: cart, email, address, totalItems
                 })
                 this.cart = [];

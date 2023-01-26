@@ -35,20 +35,22 @@
           :to="{ name: 'profile' }"
           class="
             text-white
-            bg-slate-600
-            hover:bg-blue-100 hover:text-blue-900
-            focus:ring-4
+            border border-cyan-700
+            bg-slate-700
             font-medium
             rounded-lg
             text-sm
-            px-4
+            px-3
             lg:px-5
             py-2
-            lg:py-2.5
             mr-2
             focus:outline-none focus:ring-blue-800
           "
-          >{{ store.user.username }}</router-link
+          ><i
+            class="fa fa-user text-yellow-50 mr-1 text-[16px]"
+            aria-hidden="true"
+          ></i
+          ><span class="text-[17px]">Profil</span></router-link
         >
         <button
           v-if="store.isLogged"

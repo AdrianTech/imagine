@@ -1,6 +1,6 @@
 <template>
   <ModalVue classname="details">
-    <div class="" v-for="product in products" :key="product.id">
+    <div v-for="product in products" :key="product.id">
       <div class="px-4 py-2">
         <div class="">Tytuł obrazu: {{ product.title }}</div>
         <div class="">Cena: {{ product.price.toFixed(2) }} zł</div>

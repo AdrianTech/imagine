@@ -17,7 +17,6 @@
       <button
         class="disabled:bg-opacity-50"
         :class="[darkButton]"
-        :disabled="!value"
         @click="$router.push({ name: 'transaction' })"
       >
         Dokończ zakup
@@ -47,14 +46,7 @@ import Cart from "@/components/cart/Cart.vue";
 import Section from "@/components/commons/Section.vue";
 import { darkButton, primaryButton } from "@/resusables/css-classes";
 import { useCartStore } from "@/stores/cart";
-import { ref, watch } from "@vue/runtime-core";
 
 const store = useCartStore();
 store.refreshCart();
-
-const value = ref(store.cartTotalSum);
-
-watch(store, (current) => {
-  value.value = current.cartTotalSum;
-});
 </script>

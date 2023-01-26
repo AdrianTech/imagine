@@ -20,7 +20,7 @@ export class UsersService {
         filterableColumns: {
           'email': [FilterOperator.IN],
           'username': [FilterOperator.EQ]
-        }
+        },
       })
 
     } catch (error) {

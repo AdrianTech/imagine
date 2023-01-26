@@ -1,5 +1,4 @@
 <template>
-  <!-- <FormKit type="form"> -->
   <FormKit
     v-if="props.imagesHandle.addImages"
     type="file"
@@ -8,7 +7,6 @@
     accept=".jpg,.jpeg,.png"
     multiple
   />
-  <!-- </FormKit> -->
   <FormKit
     v-if="props.imagesHandle.deleteImages"
     :type="imageCheckbox"

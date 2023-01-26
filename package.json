@@ -1,0 +1,21 @@
+{
+  "name": "vue-nest",
+  "version": "1.0.0",
+  "description": "A simple art shop. Created using Javascript and a relational database",
+  "main": "vetur.config.js",
+  "scripts": {
+    "build:client": "cd ./client && npm run build",
+    "build:server": "cd ./server && npm run build",
+    "build": "npm run build:client && npm run build:server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrianTech/imagine.git"
+  },
+  "author": "Adriantech",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdrianTech/imagine/issues"
+  },
+  "homepage": "https://github.com/AdrianTech/imagine#readme"
+}

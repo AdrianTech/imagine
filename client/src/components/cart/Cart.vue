@@ -11,14 +11,16 @@
     "
   >
     <p class="mr-2 text-lg">{{ title }}</p>
-    <span class="font-bold">{{ isPromotion ? discount_price : price }} zł</span
+    <span :class="isPromotion && 'text-red-600'" class="font-bold"
+      >{{ isPromotion ? discount_price : price }} zł</span
     ><img :src="`/uploads/` + gallery[0]" alt="" class="mb-2" />
     <input
       class="ml-2 border font-semibold p-1 w-[60px]"
       type="number"
-      min="0"
+      min="1"
+      step="1"
       v-model="quantity"
-      @change="quantityHandle"
+      @input="quantityHandle"
     />
     <button
       class="ml-2 border bg-red-600 text-white px-3 py-1 rounded-sm"
@@ -48,7 +50,10 @@ const quantity = ref(props.product.quantity);
 const { title, isPromotion, discount_price, price, gallery, id } =
   props.product;
 
-function quantityHandle(): void {
+function quantityHandle() {
+  if (quantity.value < 1) return;
+  quantity.value = parseInt(quantity.value);
+
   cartStore.updateCart(quantity.value, props.index);
 }
 </script>
