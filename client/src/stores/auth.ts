@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', {
             } catch (err: any) {
                 const status: string = err.response.status === 401 ? 'Nieprawidłowe hasło lub email' : 'Coś poszło nie tak';
                 event.eventMessageHelper(t(status), true)
+                this.deleteRemember();
                 return false
             }
         },

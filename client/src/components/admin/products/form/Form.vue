@@ -155,7 +155,10 @@
       >
         {{ imagesHandle.deleteImages ? "Nie usuwaj zdjęć" : "Usuń zdjęcia" }}
       </button>
-      <button-back :externalFunc="true" @click="formHandle(false)">
+      <button-back
+        :externalFunc="true"
+        @click="props.settings.formHandle(false)"
+      >
         Powrót
       </button-back>
     </div>
@@ -188,7 +191,7 @@ const imagesHandle = reactive({
   deleteImages: false,
 });
 
-const { action, productID, formHandle } = toRefs(props.settings);
+const { action, productID } = toRefs(props.settings);
 
 const store = useAdminStore();
 const userStore = useAuthStore();

@@ -1,5 +1,5 @@
 <template>
-  <Section>
+  <Section class="py-6">
     <div
       class="
         border-2 border-emerald-100
@@ -58,11 +58,44 @@
         </div>
         <div class="text-lg text-slate-800 my-2">
           <p
-            :class="user.role === 'Admin' && 'text-red-600'"
+            :class="user.role === ROLES.ADMIN && 'text-red-600'"
             class="text-[19px]"
           >
             {{ user.role }}
           </p>
+        </div>
+      </div>
+      <div
+        class="w-full sm:w-1/2"
+        v-if="
+          authStore.user.role === ROLES.ADMIN ||
+          authStore.user.role === ROLES.MODERATOR
+        "
+      >
+        <div class="text-center mt-2">
+          <div class="bg-slate-300 text-slate-900 text-lg rounded-md">
+            <p class="font-bold py-1 text-xl">
+              <i
+                class="fa fa-plus-square-o mr-3 text-green-800"
+                aria-hidden="true"
+              ></i
+              >Utworzone
+            </p>
+          </div>
+          <div class="text-lg text-slate-800 my-2">
+            <p class="text-[19px]">{{ convertDate(user.createdAt, "us") }}</p>
+          </div>
+        </div>
+        <div class="text-center mt-2">
+          <div class="bg-slate-300 text-slate-900 text-lg rounded-md">
+            <p class="font-bold py-1 text-xl">
+              <i class="fa fa-wrench mr-3 text-green-800" aria-hidden="true"></i
+              >Ostatnio aktualizowane
+            </p>
+          </div>
+          <div class="text-lg text-slate-800 my-2">
+            <p class="text-[19px]">{{ convertDate(user.updatedAt) }}</p>
+          </div>
         </div>
       </div>
       <div class="text-center w-full sm:w-1/2 mt-2">
@@ -90,13 +123,16 @@
 <script lang="ts" setup>
 import Section from "@/components/commons/Section.vue";
 import { IUser } from "@/interfaces/user";
-import { getSingleItem } from "@/resusables/methods";
+import { ROLES } from "@/resusables/enums";
+import { convertDate, getSingleItem } from "@/resusables/methods";
 import { useAdminStore } from "@/stores/admin";
 import { useAuthStore } from "@/stores/auth";
 import { Ref, ref } from "@vue/reactivity";
-import { useRoute, useRouter } from "vue-router";
+const authStore = useAuthStore();
+
 const user: Ref<IUser> = ref<IUser>();
 const store = useAdminStore();
+
 const props = defineProps<{
   id?: number;
 }>();
@@ -108,6 +144,6 @@ if (props.id) {
     store.users
   );
 } else {
-  user.value = useAuthStore().user;
+  user.value = authStore.user;
 }
 </script>

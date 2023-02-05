@@ -20,8 +20,12 @@ export class ProductsManageService {
         return this.productRepository.save(product);
     }
 
+    async findOne(id: number): Promise<CreateProductDto> {
+        return await this.productRepository.findOne({ where: { id }, relations: ['user'] });
+    }
+
     async updateImages(id: number, images: string[], files: Array<Express.Multer.File>) {
-        const product: Product = await this.productRepository.findOneBy({ id });
+        const product: Product = await this.productRepository.findOneBy({ id },);
         try {
             if (images && images.length) {
                 product.gallery = this.removeImagesHandle(product.gallery, images);

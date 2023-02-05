@@ -68,7 +68,7 @@
             <p class="item font-bold text-orange-600">{{ data?.base }}</p>
           </div>
           <button
-            v-if="user.role === 'Admin'"
+            v-if="checkPermission()"
             class="text-left ml-2 text-amber-900 font-semibold"
             @click="dialog(true, 'moreDetails')"
           >
@@ -91,6 +91,7 @@
             >
               {{ exist ? "Dodano do koszyka" : "Dodaj do koszyka" }}
             </button>
+            <!-- <button @click="$router.back">Powrót do panelu admina</button> -->
           </div>
         </div>
       </div>
@@ -106,9 +107,9 @@
 </template>
 
 <script lang="ts">
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { useProductsStore } from "@/stores/products";
-import { checkIfExist, dialog } from "@/resusables/methods";
+import { checkIfExist, dialog, getSingleItem } from "@/resusables/methods";
 import ImageBox from "./ImageBox.vue";
 import Section from "../commons/Section.vue";
 import { ref } from "@vue/reactivity";
@@ -116,8 +117,10 @@ import MoreDetails from "./MoreDetails.vue";
 import { useCartStore } from "@/stores/cart";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+import { onBeforeMount } from "@vue/runtime-core";
+import { ROLES } from "@/resusables/enums";
+import { useAdminStore } from "@/stores/admin";
 const cartStore = useCartStore();
-
 export default {
   components: { ImageBox, Section, MoreDetails },
 
@@ -130,9 +133,29 @@ export default {
       params: { id },
     } = useRoute();
 
-    const store = useProductsStore();
+    const checkPermission = (): boolean => {
+      if (
+        user.value?.role === ROLES.ADMIN ||
+        user.value?.role === ROLES.MODERATOR
+      )
+        return true;
+      return false;
+    };
 
-    data.value = await store.getSingleProduct(+id);
+    const store = useProductsStore();
+    const adminStore = useAdminStore();
+    const setData: { storeData: object[]; path: string } = {
+      path: `/products/${+id}`,
+      storeData: store.products,
+    };
+    if (
+      user.value?.role === ROLES.ADMIN ||
+      user.value?.role === ROLES.MODERATOR
+    ) {
+      setData.path = `/admin/products/${+id}`;
+      setData.storeData = adminStore.products;
+    }
+    data.value = await getSingleItem(+id, setData.path, setData.storeData);
     exist.value = checkIfExist(cartStore.cart, +id);
 
     const addToCart = () => {
@@ -140,7 +163,16 @@ export default {
       exist.value = checkIfExist(cartStore.cart, +id);
     };
 
-    return { data, event, cartStore, exist, addToCart, user, dialog };
+    return {
+      data,
+      event,
+      cartStore,
+      exist,
+      addToCart,
+      user,
+      dialog,
+      checkPermission,
+    };
   },
 };
 </script>

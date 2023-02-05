@@ -24,12 +24,19 @@
     :key="store.users"
     :formHandle="formHandle"
   />
+  <User
+    v-if="showProfile"
+    :id="userID"
+    @click="hideProfile"
+    :class="showProfile && profileClass"
+  />
 </template>
 
 <script lang="ts" setup>
 import config from "@/resusables/config";
 import { useAdminStore } from "@/stores/admin";
 import Table from "../../commons/Table.vue";
+import User from "@/components/users/User.vue";
 import Form from "./UsersForm.vue";
 import SelectItems from "@/components/commons/SelectItems.vue";
 import Paginate from "@/components/pagination/Paginate.vue";
@@ -39,23 +46,29 @@ import { primaryButton } from "@/resusables/css-classes";
 
 const showForm: Ref<boolean> = ref<boolean>(false);
 const action: Ref<boolean> = ref<boolean>(false);
+const showProfile: Ref<boolean> = ref<boolean>(false);
 const userID = ref(null);
 const store = useAdminStore();
-const router = useRouter();
+const profileClass = "fixed top-0 md:mt-0 w-full -left-[10px] h-screen z-[80]";
 
 store.getAll(
   {
-    path: `${config.nestApiPath}/users`,
+    path: `/users`,
     method: "get",
     withCredentials: true,
   },
   "users"
 );
 
-const formHandle = (state?: boolean) => {
+const formHandle = () => {
   showForm.value = !showForm.value;
-  state != null && (action.value = state);
-  !state && (userID.value = null);
+  action.value = false;
+  userID.value = null;
+};
+
+const hideProfile = () => {
+  showProfile.value = false;
+  userID.value = null;
 };
 
 const actionHandle = async (type: string, id: number): Promise<void> => {
@@ -77,7 +90,8 @@ const actionHandle = async (type: string, id: number): Promise<void> => {
       );
       break;
     default:
-    // router.push({ name: "profile", params: { id } });
+      showProfile.value = true;
+      userID.value = id;
   }
 };
 </script>

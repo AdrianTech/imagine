@@ -23,6 +23,11 @@ export class ProductsManageController {
 
     return this.productsService.create(createProductDto, files);
   }
+  @Get(':id')
+  @Serialize(CreateProductDto)
+  public async findOne(@Param('id') id: string) {
+    return await this.productsService.findOne(+id);
+  }
 
   @Get()
   @Roles(ROLES.Moderator, ROLES.Admin)

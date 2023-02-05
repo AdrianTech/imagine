@@ -56,8 +56,10 @@
           </p>
         </div>
         <div class="item">
-          <h5>Opcja dostawy</h5>
-          <p class="mt-5 font-bold">{{ order?.deliveryOption }}</p>
+          <h5>Opcja dostawy / Koszt</h5>
+          <p class="mt-5 font-bold">
+            {{ order?.deliver.name }} / {{ order?.deliver.price }} zł
+          </p>
         </div>
         <div class="item"></div>
       </div>

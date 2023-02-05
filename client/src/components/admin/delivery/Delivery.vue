@@ -16,6 +16,11 @@
     </button>
   </div>
   <Form v-else :settings="settings" :key="deliveryOptions" />
+  <Details
+    :deliver="settings.details"
+    v-if="settings.showDetails"
+    @click="settings.showDetails = false"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -25,6 +30,7 @@ import Table from "../../commons/Table.vue";
 import Form from "./Form.vue";
 import { primaryButton } from "@/resusables/css-classes";
 import { reactive, Ref, ref } from "@vue/reactivity";
+import Details from "./Details.vue";
 
 const store = useDeliveryStore();
 const showForm: Ref<boolean> = ref(false);
@@ -33,6 +39,8 @@ const { deliveryOptions } = storeToRefs(store);
 const settings = reactive({
   action: false,
   deliveryID: null,
+  showDetails: false,
+  details: {},
   path: "/admin/delivery",
   formHandle: function (state?: boolean) {
     showForm.value = !showForm.value;
@@ -66,10 +74,10 @@ const actionHandle = async (type: string, id: number): Promise<void> => {
       );
       break;
     default:
-    //   router.push({ name: "productDetails", params: { id } });
+      settings.details = deliveryOptions.value.find(
+        (elem: any) => id === elem.id
+      );
+      settings.showDetails = true;
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

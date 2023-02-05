@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, ParseIntPipe, Patch, Post, Res, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Res, UseGuards, UsePipes } from '@nestjs/common';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { UsersManageService } from './users-manage.service';

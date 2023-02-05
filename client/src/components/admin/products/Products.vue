@@ -55,10 +55,10 @@ const store = useAdminStore();
 const settings = reactive({
   action: false,
   productID: null,
-  formHandle: function (state?: boolean) {
+  formHandle: function () {
     showForm.value = !showForm.value;
-    state != null && (this.action = state);
-    !state && (this.productID = null);
+    this.action = false;
+    this.productID = null;
   },
 });
 const { page, limit, sortBy } = useRoute().query;
@@ -76,7 +76,7 @@ const actionHandle = async (type: string, id: number): Promise<void> => {
     case "delete":
       await store.removeElement(
         {
-          path: `${config.nestApiPath}/admin/products/${id}`,
+          path: `/admin/products/${id}`,
           method: "delete",
           withCredentials: true,
         },
