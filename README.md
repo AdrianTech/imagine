@@ -82,8 +82,6 @@ To run this project, you will need to add the following environment variables to
 `JWT_SECRET`
 `ORIGIN`
 
-## Demo
-[Demo](https://sanden.usermd.net) (Admin panel is available only on you own instance of this app )
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
